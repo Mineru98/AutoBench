@@ -6,12 +6,12 @@ This program is a benchmark site data extraction program utilizing Python web cr
 ```
 Usage: AutoBench [-h] [-v]
          [all]<Print All Info>
-         [high_end_cpus]<Print CPU Info for 1st>
-         [mid_range_cpus]<Print CPU Info for 2st>
-         [midlow_range_cpus]<Print CPU Info for 3st>
-         [low_end_cpus]<Print CPU Info for 4st>
-         [high_end_gpus]<Print GPU Info for 1st>
-         [mid_range_gpus]<Print GPU Info for 2st>
-         [midlow_range_gpus]<Print GPU Info for 3st>
-         [low_end_gpus]<Print GPU Info for 4st>
+         [high_end_cpus]<Print the 1st CPU Info>
+         [mid_range_cpus]<Print the 2st CPU Info>
+         [midlow_range_cpus]<Print the 3st CPU Info>
+         [low_end_cpus]<Print the 4st CPU Info>
+         [high_end_gpus]<Print GPU the 1st Info>
+         [mid_range_gpus]<Print GPU the 2st Info>
+         [midlow_range_gpus]<Print GPU the 3st Info>
+         [low_end_gpus]<Print GPU the 4st Info>
 ```
