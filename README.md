@@ -4,6 +4,7 @@ This program is a benchmark site data extraction program utilizing Python web cr
 The Output Data is saved as a csv file.
 
 The CPU information is created by model name, score, and price table.
+
 GPU information is created with model name and score table.
 
 ----------------------------
