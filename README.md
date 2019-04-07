@@ -7,7 +7,6 @@ The CPU information is created by model name, score, and price table.
 
 The GPU information is created with model name and score table.
 
----
 # Usage
 ```
 Usage: AutoBench [-h] [-v]
