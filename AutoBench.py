@@ -18,14 +18,14 @@ def printProgress (iteration, total, prefix = '', suffix = '', decimals = 1, len
 def help_print():
     print("\nUsage: AutoBench [-h] [-v]")
     print("         [all]<Print All Info>")
-    print("         [high_end_cpus]<Print CPU Info for 1st>")
-    print("         [mid_range_cpus]<Print CPU Info for 2st>")
-    print("         [midlow_range_cpus]<Print CPU Info for 3st>")
-    print("         [low_end_cpus]<Print CPU Info for 4st>")
-    print("         [high_end_gpus]<Print GPU Info for 1st>")
-    print("         [mid_range_gpus]<Print GPU Info for 2st>")
-    print("         [midlow_range_gpus]<Print GPU Info for 3st>")
-    print("         [low_end_gpus]<Print GPU Info for 4st>")
+    print("         [high_end_cpus]<Print the 1st CPU Info>")
+    print("         [mid_range_cpus]<Print the 2st CPU Info>")
+    print("         [midlow_range_cpus]<Print the 3st CPU Info>")
+    print("         [low_end_cpus]<Print the 4st CPU Info>")
+    print("         [high_end_gpus]<Print the 1st GPU Info>")
+    print("         [mid_range_gpus]<Print the 2st GPU Info>")
+    print("         [midlow_range_gpus]<Print the 3st GPU Info>")
+    print("         [low_end_gpus]<Print the 4st GPU Info>")
 
 def input_url(url):
     if '-h' == url:
