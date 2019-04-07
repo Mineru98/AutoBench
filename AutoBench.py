@@ -28,7 +28,11 @@ def help_print():
     print("         [low_end_gpus]<Print GPU Info for 4st>")
 
 def input_url(url):
-    if 'all' == url:
+    if '-h' == url:
+        help_print()
+    elif '-v' == url:
+        print("1.0.0")
+    elif 'all' == url:
         items = list(range(0,100))
         l = len(items)
         printProgress(0, 1, prefix = 'Progress:', suffix = 'Wait...', length = 50)
