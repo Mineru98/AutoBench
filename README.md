@@ -5,7 +5,7 @@ The Output Data is saved as a csv file.
 
 The CPU information is created by model name, score, and price table.
 
-GPU information is created with model name and score table.
+The GPU information is created with model name and score table.
 
 ----------------------------
 # Usage
