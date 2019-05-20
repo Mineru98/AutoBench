@@ -23,3 +23,9 @@ Usage: AutoBench [-h] [-v]
          [midlow_range_gpus]<Print GPU the 3st Info>
          [low_end_gpus]<Print GPU the 4st Info>
 ```
+
+# Source Site
+
+[CPU Benchmark Site](https://www.cpubenchmark.net/)
+
+[GPU Benchmark Site](https://www.videocardbenchmark.net/)
