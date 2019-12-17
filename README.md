@@ -23,6 +23,15 @@ Usage: AutoBench [-h] [-v]
          [midlow_range_gpus]<Print GPU the 3st Info>
          [low_end_gpus]<Print GPU the 4st Info>
 ```
+## How To Build (.exe)
+```Python
+```
+
+## Git Release
+```Java
+git tag -a vz.x.y -m ""
+git push origin vz.x.y
+```
 
 # Source Site
 
