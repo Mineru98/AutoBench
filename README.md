@@ -6,7 +6,6 @@ csv 확장자로 결과를 보여줍니다.<br>
 CPU 정보는 모델 이름, 점수로 작성됩니다.<br>
 GPU 정보는 모델 이름, 점수로 작성됩니다.<br>
 
-Version 0.2.0<br>
 This program is a program that extracts the latest CPU and GPU performance scores and rankings from benchmark sites.<br>
 The Output Data is saved as a csv file.<br>
 CPU information is written by model name and score.<br>
