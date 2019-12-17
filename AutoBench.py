@@ -116,7 +116,7 @@ def input_url(url):
     if '-h' == url:
         help_print()
     elif '-v' == url:
-        print("1.1.0")
+        print("0.2.0")
     elif 'all' == url:
         all_print()
     elif 'high_end_cpus' == url:
