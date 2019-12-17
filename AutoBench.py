@@ -1,8 +1,11 @@
 import io
+import os
 import sys
+import csv
 import requests
 from time import sleep
 from bs4 import BeautifulSoup
+from openpyxl import Workbook
 sys.stdout = io.TextIOWrapper(sys.stdout.detach(), encoding = 'utf-8')
 sys.stderr = io.TextIOWrapper(sys.stderr.detach(), encoding = 'utf-8')
 
@@ -27,10 +30,109 @@ def help_print():
     print("         cpu\t\t\tExtract Only CPU Data")
     print("         gpu\t\t\tExtract Only GPU Data")
 
-def all_print():
+def file_delete(find):
+    if find == "cpu":
+        os.remove("high_end_cpus.csv")
+        os.remove("low_end_cpus.csv")
+        os.remove("mid_range_cpus.csv")
+        os.remove("midlow_range_cpus.csv")
+    else:
+        os.remove("high_end_gpus.csv")
+        os.remove("low_end_gpus.csv")
+        os.remove("mid_range_gpus.csv")
+        os.remove("midlow_range_gpus.csv")
+
+def convert_excel(find):
+    global _format
+    wb = Workbook()
+    ws1 = wb.active
+    ws2 = wb.create_sheet()
+    ws3 = wb.create_sheet()
+    ws4 = wb.create_sheet()
+    
+    if find == "cpu":
+        ws1.title = '최상위 CPU'
+        ws2.title = '중상위 CPU'
+        ws3.title = '중하위 CPU'
+        ws4.title = '하위 CPU'
+    else:
+        ws1.title = '최상위 GPU'
+        ws2.title = '중상위 GPU'
+        ws3.title = '중하위 GPU'
+        ws4.title = '하위 GPU'
+    
+    if _format == 0:
+        savefile = "" + find + ".xlsx"
+        # savefile = "" + find + ".csv"
+    elif _format == 1:
+        savefile = "" + find + ".xlsx"
+    elif _format == 2:
+        savefile = "" + find + ".xls"
+
+    CSV_SEPARATOR = ","
+    
+    if find == "cpu":
+        with open("high_end_cpus.csv") as f:
+            reader = csv.reader(f)
+            for r, row in enumerate(reader):
+                for c, col in enumerate(row):
+                    for idx, val in enumerate(col.split(CSV_SEPARATOR)):
+                        ws1.cell(r+1,c+1,val)
+
+        with open("mid_range_cpus.csv") as f:
+            reader = csv.reader(f)
+            for r, row in enumerate(reader):
+                for c, col in enumerate(row):
+                    for idx, val in enumerate(col.split(CSV_SEPARATOR)):
+                        ws2.cell(r+1,c+1,val)
+
+        with open("midlow_range_cpus.csv") as f:
+            reader = csv.reader(f)
+            for r, row in enumerate(reader):
+                for c, col in enumerate(row):
+                    for idx, val in enumerate(col.split(CSV_SEPARATOR)):
+                        ws3.cell(r+1,c+1,val)
+
+        with open("low_end_cpus.csv") as f:
+            reader = csv.reader(f)
+            for r, row in enumerate(reader):
+                for c, col in enumerate(row):
+                    for idx, val in enumerate(col.split(CSV_SEPARATOR)):
+                        ws4.cell(r+1,c+1,val)
+    else:
+        with open("high_end_gpus.csv") as f:
+            reader = csv.reader(f)
+            for r, row in enumerate(reader):
+                for c, col in enumerate(row):
+                    for idx, val in enumerate(col.split(CSV_SEPARATOR)):
+                        ws1.cell(r+1,c+1,val)
+
+        with open("mid_range_gpus.csv") as f:
+            reader = csv.reader(f)
+            for r, row in enumerate(reader):
+                for c, col in enumerate(row):
+                    for idx, val in enumerate(col.split(CSV_SEPARATOR)):
+                        ws2.cell(r+1,c+1,val)
+
+        with open("midlow_range_gpus.csv") as f:
+            reader = csv.reader(f)
+            for r, row in enumerate(reader):
+                for c, col in enumerate(row):
+                    for idx, val in enumerate(col.split(CSV_SEPARATOR)):
+                        ws3.cell(r+1,c+1,val)
+
+        with open("low_end_gpus.csv") as f:
+            reader = csv.reader(f)
+            for r, row in enumerate(reader):
+                for c, col in enumerate(row):
+                    for idx, val in enumerate(col.split(CSV_SEPARATOR)):
+                        ws4.cell(r+1,c+1,val)
+    wb.save(savefile)
+
+def extract_cpu():
     items = list(range(0,100))
     l = len(items)
-    printProgress(0, 1, prefix = 'Progress:', suffix = 'Wait...', length = 50)
+    printProgress(0, 1, prefix = 'Progress:', suffix = 'CPU Data Extract Ready', length = 50)
     res = requests.get('https://www.cpubenchmark.net/high_end_cpus.html')
     soup = BeautifulSoup(res.content, 'lxml')
     data = soup.find("ul",{"class": "chartlist"}).get_text()
@@ -40,7 +142,7 @@ def all_print():
     make_csv_new('high_end_cpus')
     for i, item in enumerate(items):
         sleep(0.01)
-        printProgress(i+1, l, prefix = '1)Progress:', suffix = 'Running', length = 50)
+        printProgress(i+1, l, prefix = '1)Progress:', suffix = 'CPU Data Extracting', length = 50)
     res = requests.get('https://www.cpubenchmark.net/mid_range_cpus.html')
     soup = BeautifulSoup(res.content, 'lxml')
     data = soup.find("ul",{"class": "chartlist"}).get_text()
@@ -50,7 +152,7 @@ def all_print():
     make_csv_new('mid_range_cpus')
     for i, item in enumerate(items):
         sleep(0.01)
-        printProgress(i+1, l, prefix = '2)Progress:', suffix = 'Running', length = 50)
+        printProgress(i+1, l, prefix = '2)Progress:', suffix = 'CPU Data Extracting', length = 50)
     res = requests.get('https://www.cpubenchmark.net/midlow_range_cpus.html')
     soup = BeautifulSoup(res.content, 'lxml')
     data = soup.find("ul",{"class": "chartlist"}).get_text()
@@ -60,7 +162,7 @@ def all_print():
     make_csv_new('midlow_range_cpus')
     for i, item in enumerate(items):
         sleep(0.01)
-        printProgress(i+1, l, prefix = '3)Progress:', suffix = 'Running', length = 50)
+        printProgress(i+1, l, prefix = '3)Progress:', suffix = 'CPU Data Extracting', length = 50)
     res = requests.get('https://www.cpubenchmark.net/low_end_cpus.html')
     soup = BeautifulSoup(res.content, 'lxml')
     data = soup.find("ul",{"class": "chartlist"}).get_text()
@@ -70,7 +172,15 @@ def all_print():
     make_csv_new('low_end_cpus')
     for i, item in enumerate(items):
         sleep(0.01)
-        printProgress(i+1, l, prefix = '4)Progress:', suffix = 'Running', length = 50)
+        printProgress(i+1, l, prefix = '4)Progress:', suffix = 'CPU Data Extracting', length = 50)
+    print('CPU Data Extract Complete!!!')
+    convert_excel("cpu")
+    file_delete("cpu")
+
+def extract_gpu():
+    items = list(range(0,100))
+    l = len(items)
+    printProgress(0, 1, prefix = 'Progress:', suffix = 'GPU Data Extract Ready', length = 50)
     res = requests.get('https://www.videocardbenchmark.net/high_end_gpus.html')
     soup = BeautifulSoup(res.content, 'lxml')
     data = soup.find("ul",{"class": "chartlist"}).get_text()
@@ -80,7 +190,7 @@ def all_print():
     make_csv_new_g('high_end_gpus')
     for i, item in enumerate(items):
         sleep(0.01)
-        printProgress(i+1, l, prefix = '5)Progress:', suffix = 'Running', length = 50)
+        printProgress(i+1, l, prefix = '1)Progress:', suffix = 'GPU Data Extracting', length = 50)
     res = requests.get('https://www.videocardbenchmark.net/mid_range_gpus.html')
     soup = BeautifulSoup(res.content, 'lxml')
     data = soup.find("ul",{"class": "chartlist"}).get_text()
@@ -90,7 +200,7 @@ def all_print():
     make_csv_new_g('mid_range_gpus')
     for i, item in enumerate(items):
         sleep(0.01)
-        printProgress(i+1, l, prefix = '6)Progress:', suffix = 'Running', length = 50)
+        printProgress(i+1, l, prefix = '2)Progress:', suffix = 'GPU Data Extracting', length = 50)
     res = requests.get('https://www.videocardbenchmark.net/midlow_range_gpus.html')
     soup = BeautifulSoup(res.content, 'lxml')
     data = soup.find("ul",{"class": "chartlist"}).get_text()
@@ -100,7 +210,7 @@ def all_print():
     make_csv_new_g('midlow_range_gpus')
     for i, item in enumerate(items):
         sleep(0.01)
-        printProgress(i+1, l, prefix = '7)Progress:', suffix = 'Running', length = 50)
+        printProgress(i+1, l, prefix = '3)Progress:', suffix = 'GPU Data Extracting', length = 50)
     res = requests.get('https://www.videocardbenchmark.net/low_end_gpus.html')
     soup = BeautifulSoup(res.content, 'lxml')
     data = soup.find("ul",{"class": "chartlist"}).get_text()
@@ -110,9 +220,16 @@ def all_print():
     make_csv_new_g('low_end_gpus')
     for i, item in enumerate(items):
         sleep(0.01)
-        printProgress(i+1, l, prefix = '8)Progress:', suffix = 'Running', length = 50)
-    print('Complete!!!')
+        printProgress(i+1, l, prefix = '4)Progress:', suffix = 'GPU Data Extracting', length = 50)
+    print('GPU Data Extract Complete!!!')
     
+    convert_excel("gpu")
+    file_delete("gpu")
+
+def extract_all():
+    extract_cpu()
+    extract_gpu()
+
 def input_command(args, size):
     global _format
     if '--help' in args:
@@ -240,6 +357,6 @@ def make_csv_new_g(name):
     
 if __name__ == "__main__":
     if len(sys.argv) == 1:
-        all_print()
+        extract_all()
     else:
         input_command(sys.argv[1:], len(sys.argv))
