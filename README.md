@@ -23,8 +23,11 @@ Usage: AutoBench [-h] [-v]
          [midlow_range_gpus]<Print GPU the 3st Info>
          [low_end_gpus]<Print GPU the 4st Info>
 ```
-## How To Build (.exe)
-```Python
+## How To Build
+[PyInstaller](https://pyinstaller.readthedocs.io/en/stable/usage.html)
+```
+pip install pytinstaller
+pyinstaller -D -F -n AutoBench -i icon.ico AutoBench.py
 ```
 
 ## Git Release
