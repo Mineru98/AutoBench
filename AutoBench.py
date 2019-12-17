@@ -6,6 +6,11 @@ from bs4 import BeautifulSoup
 sys.stdout = io.TextIOWrapper(sys.stdout.detach(), encoding = 'utf-8')
 sys.stderr = io.TextIOWrapper(sys.stderr.detach(), encoding = 'utf-8')
 
+_format = 0
+# _format 0 : .csv
+# _format 1 : .xlsx
+# _format 2 : .xls
+
 def printProgress (iteration, total, prefix = '', suffix = '', decimals = 1, length=100, fill='#'):
     percent = ("{0:." + str(decimals) + "f}").format(100 * (iteration / float(total)))
     filledLength = int(length * iteration // total)
@@ -16,16 +21,11 @@ def printProgress (iteration, total, prefix = '', suffix = '', decimals = 1, len
     sys.stdout.flush()
 
 def help_print():
-    print("\nUsage: AutoBench [-h] [-v]")
-    print("         [all]<Print All Info>")
-    print("         [high_end_cpus]<Print the 1st CPU Info>")
-    print("         [mid_range_cpus]<Print the 2st CPU Info>")
-    print("         [midlow_range_cpus]<Print the 3st CPU Info>")
-    print("         [low_end_cpus]<Print the 4st CPU Info>")
-    print("         [high_end_gpus]<Print the 1st GPU Info>")
-    print("         [mid_range_gpus]<Print the 2st GPU Info>")
-    print("         [midlow_range_gpus]<Print the 3st GPU Info>")
-    print("         [low_end_gpus]<Print the 4st GPU Info>")
+    print("\nUsage: AutoBench [--help] [--version] [-f <csv|xlsx|xls>] <command> [<args>]")
+    print("         -f <csv|xlsx|xls>\tExport to csv, xlsx or xls files.(default .csv)")
+    print("         default(cpu&gpu)\tExtract both CPU and GPU Data")
+    print("         cpu\t\t\tExtract Only CPU Data")
+    print("         gpu\t\t\tExtract Only GPU Data")
 
 def all_print():
     items = list(range(0,100))
@@ -112,133 +112,60 @@ def all_print():
         sleep(0.01)
         printProgress(i+1, l, prefix = '8)Progress:', suffix = 'Running', length = 50)
     print('Complete!!!')
-def input_url(url):
-    if '-h' == url:
+    
+def input_command(args, size):
+    global _format
+    if '--help' in args:
         help_print()
-    elif '-v' == url:
-        print("0.2.0")
-    elif 'all' == url:
-        all_print()
-    elif 'high_end_cpus' == url:
-        items = list(range(0,100))
-        l = len(items)
-        printProgress(0, 1, prefix = 'Progress:', suffix = 'Wait...', length = 50)
-        res = requests.get('https://www.cpubenchmark.net/high_end_cpus.html')
-        soup = BeautifulSoup(res.content, 'lxml')
-        data = soup.find("ul",{"class": "chartlist"}).get_text()
-        f = open("high_end_cpus.csv", 'w+', encoding='UTF8')
-        f.write(data)
-        f.close()
-        make_csv_new('high_end_cpus')
-        for i, item in enumerate(items):
-            sleep(0.01)
-            printProgress(i+1, l, prefix = 'Progress:', suffix = 'Running', length = 50)
-        print('Complete!!!')
-    elif 'mid_range_cpus' == url:
-        items = list(range(0,100))
-        l = len(items)
-        printProgress(0, 1, prefix = 'Progress:', suffix = 'Wait...', length = 50)
-        res = requests.get('https://www.cpubenchmark.net/mid_range_cpus.html')
-        soup = BeautifulSoup(res.content, 'lxml')
-        data = soup.find("ul",{"class": "chartlist"}).get_text()
-        f = open("mid_range_cpus.csv", 'w+', encoding='UTF8')
-        f.write(data)
-        f.close()
-        make_csv_new('mid_range_cpus')
-        for i, item in enumerate(items):
-            sleep(0.01)
-            printProgress(i+1, l, prefix = 'Progress:', suffix = 'Running', length = 50)
-        print('Complete!!!')
-    elif 'midlow_range_cpus' == url:
-        items = list(range(0,100))
-        l = len(items)
-        printProgress(0, 1, prefix = 'Progress:', suffix = 'Wait...', length = 50)
-        res = requests.get('https://www.cpubenchmark.net/midlow_range_cpus.html')
-        soup = BeautifulSoup(res.content, 'lxml')
-        data = soup.find("ul",{"class": "chartlist"}).get_text()
-        f = open("midlow_range_cpus.csv", 'w+', encoding='UTF8')
-        f.write(data)
-        f.close()
-        make_csv_new('midlow_range_cpus')
-        for i, item in enumerate(items):
-            sleep(0.01)
-            printProgress(i+1, l, prefix = 'Progress:', suffix = 'Running', length = 50)
-        print('Complete!!!')
-    elif 'low_end_cpus' == url:
-        items = list(range(0,100))
-        l = len(items)
-        printProgress(0, 1, prefix = 'Progress:', suffix = 'Wait...', length = 50)
-        res = requests.get('https://www.cpubenchmark.net/low_end_cpus.html')
-        soup = BeautifulSoup(res.content, 'lxml')
-        data = soup.find("ul",{"class": "chartlist"}).get_text()
-        f = open("low_end_cpus.csv", 'w+', encoding='UTF8')
-        f.write(data)
-        f.close()
-        make_csv_new('low_end_cpus')
-        for i, item in enumerate(items):
-            sleep(0.01)
-            printProgress(i+1, l, prefix = 'Progress:', suffix = 'Running', length = 50)
-        print('Complete!!!')
-    elif 'high_end_gpus' == url:
-        items = list(range(0,100))
-        l = len(items)
-        printProgress(0, 1, prefix = 'Progress:', suffix = 'Wait...', length = 50)
-        res = requests.get('https://www.videocardbenchmark.net/high_end_gpus.html')
-        soup = BeautifulSoup(res.content, 'lxml')
-        data = soup.find("ul",{"class": "chartlist"}).get_text()
-        f = open("high_end_gpus.csv", 'w+', encoding='UTF8')
-        f.write(data)
-        f.close()
-        make_csv('high_end_gpus')
-        for i, item in enumerate(items):
-            sleep(0.01)
-            printProgress(i+1, l, prefix = 'Progress:', suffix = 'Running', length = 50)
-        print('Complete!!!')
-    elif 'mid_range_gpus' == url:
-        items = list(range(0,100))
-        l = len(items)
-        printProgress(0, 1, prefix = 'Progress:', suffix = 'Wait...', length = 50)
-        res = requests.get('https://www.videocardbenchmark.net/mid_range_gpus.html')
-        soup = BeautifulSoup(res.content, 'lxml')
-        data = soup.find("ul",{"class": "chartlist"}).get_text()
-        f = open("mid_range_gpus.csv", 'w+', encoding='UTF8')
-        f.write(data)
-        f.close()
-        make_csv('mid_range_gpus')
-        for i, item in enumerate(items):
-            sleep(0.01)
-            printProgress(i+1, l, prefix = 'Progress:', suffix = 'Running', length = 50)
-        print('Complete!!!')
-    elif 'midlow_range_gpus' == url:
-        items = list(range(0,100))
-        l = len(items)
-        printProgress(0, 1, prefix = 'Progress:', suffix = 'Wait...', length = 50)
-        res = requests.get('https://www.videocardbenchmark.net/midlow_range_gpus.html')
-        soup = BeautifulSoup(res.content, 'lxml')
-        data = soup.find("ul",{"class": "chartlist"}).get_text()
-        f = open("midlow_range_gpus.csv", 'w+', encoding='UTF8')
-        f.write(data)
-        f.close()
-        make_csv('midlow_range_gpus')
-        for i, item in enumerate(items):
-            sleep(0.01)
-            printProgress(i+1, l, prefix = 'Progress:', suffix = 'Running', length = 50)
-        print('Complete!!!')
-    elif 'low_end_gpus' == url:
-        items = list(range(0,100))
-        l = len(items)
-        printProgress(0, 1, prefix = 'Progress:', suffix = 'Wait...', length = 50)
-        res = requests.get('https://www.videocardbenchmark.net/low_end_gpus.html')
-        soup = BeautifulSoup(res.content, 'lxml')
-        data = soup.find("ul",{"class": "chartlist"}).get_text()
-        f = open("low_end_gpus.csv", 'w+', encoding='UTF8')
-        f.write(data)
-        f.close()
-        make_csv('low_end_gpus')
-        for i, item in enumerate(items):
-            sleep(0.01)
-            printProgress(i+1, l, prefix = 'Progress:', suffix = 'Running', length = 50)
-        print('Complete!!!')
+        return
+    elif '--version' in args:
+        print("0.2.1")
+        return
+    
+    if '-f' in args:
+        for i in args:
+            if args[i.find("-f") + 1] == "csv" and i.find("-f") != -1:
+                _format = 0
+                break
+            elif args[i.find("-f") + 1] == "xlsx" and i.find("-f") != -1:
+                _format = 1
+                break
+            elif args[i.find("-f") + 1] == "xls" and i.find("-f") != -1:
+                _format = 2
+                break
+            else:
+                help_print()
+                return
+             
+    if _format == 0:
+        print("csv")
+    elif _format == 1:
+        print("xlsx")
+    elif _format == 2:
+        print("xls")
+        
+    # 이쪽 문제 해결해야함.
+        
+    print("-f", (not ("-f" in args) == False))
+    print("csv", (not ("csv" in args) == False))
+    print("xlsx", (not ("xlsx" in args) == False))
+    print("xls", (not ("xls" in args) == False))
+    print("cpu", (not ("cpu" in args) == False))
+    print("gpu", (not ("gpu" in args) == False))
+    
+    if (("-f" in args) == False) or (("csv" in args) == False) or (("xlsx" in args) == False) or (("xls" in args) == False) or (("cpu" in args) == False) or (("gpu" in args) == False):
+        help_print() 
+        return
+
+    
+    # cpu와 gpu를 둘다 선택하는 사항일 경우에 어떻게 처리할 지 생각해야함.
+    # 현재는 먼저 
+    if 'cpu' in args:
+        print("cpu")
+        return
+    if 'gpu' in args:
+        print("gpu")
+        return
 
 def make_csv_new(name):
     str = []
@@ -310,7 +237,9 @@ def make_csv_new_g(name):
             count+=1
     f.close()       
 
-if len(sys.argv) == 1:
-    all_print()
-else:
-    input_url(sys.argv[1])
+    
+if __name__ == "__main__":
+    if len(sys.argv) == 1:
+        all_print()
+    else:
+        input_command(sys.argv[1:], len(sys.argv))
