@@ -1,6 +1,6 @@
 # AutoBenchMark
 
-Version 0.2.0<br>
+**Version 0.2.0**<br>
 이 프로그램은 벤치 마크 사이트로부터 최신 CPU와 GPU 성능 점수와 순위를 추출 프로그램입니다.<br>
 csv 확장자로 결과를 보여줍니다.<br>
 CPU 정보는 모델 이름, 점수로 작성됩니다.<br>
