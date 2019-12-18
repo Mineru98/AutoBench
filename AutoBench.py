@@ -42,6 +42,7 @@ _format = 0
 c_rank = 1
 g_rank = 1
 
+# 진행율 출력함수
 def printProgress (iteration, total, prefix = '', suffix = '', decimals = 1, length=100, fill='#'):
     percent = ("{0:." + str(decimals) + "f}").format(100 * (iteration / float(total)))
     filledLength = int(length * iteration // total)
@@ -51,6 +52,7 @@ def printProgress (iteration, total, prefix = '', suffix = '', decimals = 1, len
         sys.stdout.write('\n')
     sys.stdout.flush()
 
+# 사용법 출력 함수
 def help_print():
     print("\nUsage: AutoBench [--help] [--version] <csv|xlsx|xls> <command> [<args>]")
     print("         <csv|xlsx|xls>\tExport to csv, xlsx or xls files.(default .csv)")
@@ -58,6 +60,7 @@ def help_print():
     print("         cpu\t\t\tExtract Only CPU Data")
     print("         gpu\t\t\tExtract Only GPU Data")
 
+# 임시 파일 제거 함수
 def file_delete(find):
     if find == "cpu":
         os.remove("tmp/1_cpu.csv")
@@ -70,6 +73,7 @@ def file_delete(find):
         os.remove("tmp/3_gpu.csv")
         os.remove("tmp/4_gpu.csv")
 
+# 파일 확장자 선택 함수
 def convert_extention(find):
     filename = ''+find+'.xlsx'
     _filename = ''+find+'.csv'
@@ -90,6 +94,7 @@ def convert_extention(find):
     csv.close()
     os.remove(filename)
 
+# xlsx 파일 변환기
 def convert_excel(find):
     global _format
     wb = Workbook()
@@ -179,6 +184,7 @@ def convert_excel(find):
     if _format == 0:
         convert_extention(find)
 
+# CPU Crawling
 def extract_cpu():
     items = list(range(0,100))
     l = len(items)
@@ -196,7 +202,7 @@ def extract_cpu():
     f.close()
     make_csv_new('1_cpu')
     for i, item in enumerate(items):
-        sleep(0.01)
+        sleep(0.001)
         printProgress(i+1, l, prefix = '1)Progress:', suffix = 'CPU Data Extracting', length = 50)
     res = requests.get('https://www.cpubenchmark.net/mid_range_cpus.html')
     soup = BeautifulSoup(res.content, 'lxml')
@@ -211,7 +217,7 @@ def extract_cpu():
     f.close()
     make_csv_new('2_cpu')
     for i, item in enumerate(items):
-        sleep(0.01)
+        sleep(0.001)
         printProgress(i+1, l, prefix = '2)Progress:', suffix = 'CPU Data Extracting', length = 50)
     res = requests.get('https://www.cpubenchmark.net/midlow_range_cpus.html')
     soup = BeautifulSoup(res.content, 'lxml')
@@ -226,7 +232,7 @@ def extract_cpu():
     f.close()
     make_csv_new('3_cpu')
     for i, item in enumerate(items):
-        sleep(0.01)
+        sleep(0.001)
         printProgress(i+1, l, prefix = '3)Progress:', suffix = 'CPU Data Extracting', length = 50)
     res = requests.get('https://www.cpubenchmark.net/low_end_cpus.html')
     soup = BeautifulSoup(res.content, 'lxml')
@@ -241,12 +247,13 @@ def extract_cpu():
     f.close()
     make_csv_new('4_cpu')
     for i, item in enumerate(items):
-        sleep(0.01)
+        sleep(0.001)
         printProgress(i+1, l, prefix = '4)Progress:', suffix = 'CPU Data Extracting', length = 50)
     print('CPU Data Extract Complete!!!')
     convert_excel("cpu")
     file_delete("cpu")
 
+# GPU Crawling
 def extract_gpu():
     items = list(range(0,100))
     l = len(items)
@@ -264,7 +271,7 @@ def extract_gpu():
     f.close()
     make_csv_new_g('1_gpu')
     for i, item in enumerate(items):
-        sleep(0.01)
+        sleep(0.001)
         printProgress(i+1, l, prefix = '1)Progress:', suffix = 'GPU Data Extracting', length = 50)
     res = requests.get('https://www.videocardbenchmark.net/mid_range_gpus.html')
     soup = BeautifulSoup(res.content, 'lxml')
@@ -279,7 +286,7 @@ def extract_gpu():
     f.close()
     make_csv_new_g('2_gpu')
     for i, item in enumerate(items):
-        sleep(0.01)
+        sleep(0.001)
         printProgress(i+1, l, prefix = '2)Progress:', suffix = 'GPU Data Extracting', length = 50)
     res = requests.get('https://www.videocardbenchmark.net/midlow_range_gpus.html')
     soup = BeautifulSoup(res.content, 'lxml')
@@ -294,7 +301,7 @@ def extract_gpu():
     f.close()
     make_csv_new_g('3_gpu')
     for i, item in enumerate(items):
-        sleep(0.01)
+        sleep(0.001)
         printProgress(i+1, l, prefix = '3)Progress:', suffix = 'GPU Data Extracting', length = 50)
     res = requests.get('https://www.videocardbenchmark.net/low_end_gpus.html')
     soup = BeautifulSoup(res.content, 'lxml')
@@ -309,7 +316,7 @@ def extract_gpu():
     f.close()
     make_csv_new_g('4_gpu')
     for i, item in enumerate(items):
-        sleep(0.01)
+        sleep(0.001)
         printProgress(i+1, l, prefix = '4)Progress:', suffix = 'GPU Data Extracting', length = 50)
     print('GPU Data Extract Complete!!!')
     
@@ -320,6 +327,7 @@ def extract_all():
     extract_cpu()
     extract_gpu()
 
+# 인자 처리기
 def input_command(args):
     global _format
     
@@ -365,6 +373,7 @@ def input_command(args):
                 extract_cpu()
                 extract_gpu()
 
+# Make CPU Data
 def make_csv_new(name):
     str = []
     tmp = []
@@ -407,7 +416,8 @@ def make_csv_new(name):
         f.write("\n")
 
     f.close()
-     
+
+# Make GPU Data
 def make_csv_new_g(name):
     str = []
     tmp = []
@@ -447,7 +457,7 @@ def make_csv_new_g(name):
             count+=1
     f.close()       
 
-    
+# 시작 지점
 if __name__ == "__main__":
     if len(sys.argv) == 1:
         if not os.path.exists("tmp"):
