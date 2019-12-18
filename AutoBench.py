@@ -25,7 +25,7 @@ def send_email():
     
     try:
         with smtplib.SMTP_SSL("smtp.google.com") as smtp:
-            smtp.login('email', 'password')
+            smtp.login('email', 'pw')
             smtp.send_message(msg)
             smtp.quit()
     except:
@@ -186,7 +186,7 @@ def extract_cpu():
     res = requests.get('https://www.cpubenchmark.net/high_end_cpus.html')
     soup = BeautifulSoup(res.content, 'lxml')
     try:
-        data = soup.find("ul",{"class": "chartlist1"}).get_text()
+        data = soup.find("ul",{"class": "chartlist"}).get_text()
     except:
         send_email()
         print("\n죄송합니다. 원본사이트에 접근 할 수 없습니다.\n확인 후 다음 업데이트에 적용하겠습니다.")
