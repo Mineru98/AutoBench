@@ -1,6 +1,6 @@
 # AutoBenchMark
 
-**Version 0.2.1**<br>
+**Version 0.2.2**<br>
 이 프로그램은 벤치 마크 사이트로부터 최신 CPU와 GPU 성능 점수와 순위를 추출 프로그램입니다.<br>
 csv 확장자로 결과를 보여줍니다.<br>
 CPU 정보는 모델 이름, 점수로 작성됩니다.<br>
@@ -32,11 +32,11 @@ Usage: AutoBench [--help] [--version] <csv|xlsx|xls> <command> [<args>]
 [PyInstaller](https://pyinstaller.readthedocs.io/en/stable/usage.html)
 ```
 pip install pytinstaller
-pyinstaller -D -F -n AutoBench.v0.2.1_ -i icon.ico AutoBench.py
+pyinstaller -D -F -n AutoBench.v0.2.2_ -i icon.ico AutoBench.py
 ```
 
 ## Git Release
-```Java
+```
 git tag -a vz.x.y -m ""
 git push origin vz.x.y
 ```

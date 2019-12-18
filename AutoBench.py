@@ -1,5 +1,7 @@
 import io
 import os
+from os import rename, listdir
+from datetime import datetime
 import sys
 import csv
 import requests
@@ -72,6 +74,40 @@ def file_delete(find):
         os.remove("tmp/2_gpu.csv")
         os.remove("tmp/3_gpu.csv")
         os.remove("tmp/4_gpu.csv")
+
+def dayfilename(find):
+    now = datetime.now()
+    day = '%s-%s-%s' % (now.year,now.month,now.day)
+    files = listdir('.')
+    
+    if find == "cpu":
+        for name in files:
+            if "cpu.csv" in name:
+                if len(name) < 8:
+                    new_name = day + "-"+ name
+                    rename(name,new_name)
+            elif "cpu.xlsx" in name:
+                if len(name) < 9:
+                    new_name = day + "-"+ name
+                    rename(name,new_name)
+            elif "cpu.xls" in name:
+                if len(name) < 8:
+                    new_name = day + "-"+ name
+                    rename(name,new_name)
+    else:
+        for name in files:
+            if "gpu.csv" in name:
+                if len(name) < 8:
+                    new_name = day + "-"+ name
+                    rename(name,new_name)
+            elif "gpu.xlsx" in name:
+                if len(name) < 9:
+                    new_name = day + "-"+ name
+                    rename(name,new_name)
+            elif "gpu.xls" in name:
+                if len(name) < 8:
+                    new_name = day + "-"+ name
+                    rename(name,new_name)
 
 # 파일 확장자 선택 함수
 def convert_extention(find):
@@ -252,6 +288,7 @@ def extract_cpu():
     print('CPU Data Extract Complete!!!')
     convert_excel("cpu")
     file_delete("cpu")
+    dayfilename("cpu")
 
 # GPU Crawling
 def extract_gpu():
@@ -322,6 +359,7 @@ def extract_gpu():
     
     convert_excel("gpu")
     file_delete("gpu")
+    dayfilename("gpu")
 
 def extract_all():
     extract_cpu()
@@ -340,7 +378,7 @@ def input_command(args):
             help_print()
             return
         elif i == "--version":
-            print("0.2.1")
+            print("0.2.2")
             return
         elif i == "csv":
             if args[i.find("-f") + 1] == "csv":
