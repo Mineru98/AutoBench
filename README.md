@@ -13,17 +13,17 @@ GPU information is written by model name and score.<br>
 
 ## 사용법(Usage)
 ```
-사용법: AutoBench [--help] [--version] [-f <csv|xlsx|xls>] <command> [<args>]
-         -f <csv|xlsx|xls>      csv,xlsx 또는 xls 확장자로 내보냅니다.(기본은 .csv)
-         default(cpu&gpu)       CPU와 GPU 둘 다 추출합니다.
+사용법: AutoBench [--help] [--version] <csv|xlsx|xls> <command> [<args>]
+         <csv|xlsx|xls>         csv,xlsx 또는 xls 확장자로 내보냅니다.(기본은 .csv)
+         공백(cpu&gpu)           CPU와 GPU 둘 다 추출합니다.
          cpu                    CPU 데이터만 추출합니다.
          gpu                    GPU 데이터만 추출합니다.
 ```
 
 ```
-Usage: AutoBench [--help] [--version] [-f <csv|xlsx|xls>] <command> [<args>]
-         -f <csv|xlsx|xls>      Export to csv, xlsx or xls files.(default .csv)
-         default(cpu&gpu)       Extract both CPU and GPU Data
+Usage: AutoBench [--help] [--version] <csv|xlsx|xls> <command> [<args>]
+         <csv|xlsx|xls>         Export to csv, xlsx or xls files.(default .csv)
+         blank(cpu&gpu)         Extract both CPU and GPU Data
          cpu                    Extract Only CPU Data
          gpu                    Extract Only GPU Data
 ```
@@ -32,7 +32,7 @@ Usage: AutoBench [--help] [--version] [-f <csv|xlsx|xls>] <command> [<args>]
 [PyInstaller](https://pyinstaller.readthedocs.io/en/stable/usage.html)
 ```
 pip install pytinstaller
-pyinstaller -D -F -n AutoBench -i icon.ico AutoBench.py
+pyinstaller -D -F -n AutoBench.v0.2.1_ -i icon.ico AutoBench.py
 ```
 
 ## Git Release
