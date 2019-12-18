@@ -20,7 +20,7 @@ def send_email():
     ip = socket.gethostbyname(socket.getfqdn())
     _os = platform.platform()
     _os_processor = platform.processor()
-    msg = MIMEText("IP: "+ip+ "\n운영체제: " + _os + "\n프로세서: " + _os_processor + "\n-------------------\n원본사이트 구조 변경에 따른 에러 예상\n개발자는 확인바랍니다.\n\nhttps://www.cpubenchmark.net/\nhttps://www.videocardbenchmark.net/")
+    msg = MIMEText("IP: "+ip+ "\n운영체제: " + _os + "\n프로세서: " + _os_processor + "\n--------------------------------------\n원본사이트 구조 변경에 따른 에러 예상\n개발자는 확인바랍니다.\n\nhttps://www.cpubenchmark.net/\nhttps://www.videocardbenchmark.net/")
     msg['Subject'] = "Auto Bench Error Email"
     msg['From'] = "email@google.com"
     msg['To'] = "email@google.com"
