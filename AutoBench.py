@@ -7,6 +7,30 @@ from time import sleep
 from bs4 import BeautifulSoup
 import openpyxl
 from openpyxl import Workbook
+
+import smtplib
+from email.mime.text import MIMEText
+from email.header import Header
+import socket
+import platform
+
+def send_email():
+    ip = socket.gethostbyname(socket.getfqdn())
+    _os = platform.platform()
+    _os_processor = platform.processor()
+    msg = MIMEText("IP: "+ip+ "\n운영체제: " + _os + "\n프로세서: " + _os_processor + "\n-------------------\n원본사이트 구조 변경에 따른 에러 예상\n개발자는 확인바랍니다.\n\nhttps://www.cpubenchmark.net/\nhttps://www.videocardbenchmark.net/")
+    msg['Subject'] = "Auto Bench Error Email"
+    msg['From'] = "email@google.com"
+    msg['To'] = "email@google.com"
+    
+    try:
+        with smtplib.SMTP_SSL("smtp.google.com") as smtp:
+            smtp.login('email', 'password')
+            smtp.send_message(msg)
+            smtp.quit()
+    except:
+        print("\n")
+
 sys.stdout = io.TextIOWrapper(sys.stdout.detach(), encoding = 'utf-8')
 sys.stderr = io.TextIOWrapper(sys.stderr.detach(), encoding = 'utf-8')
 
@@ -161,7 +185,12 @@ def extract_cpu():
     printProgress(0, 1, prefix = 'Progress:', suffix = 'CPU Data Extract Ready', length = 50)
     res = requests.get('https://www.cpubenchmark.net/high_end_cpus.html')
     soup = BeautifulSoup(res.content, 'lxml')
-    data = soup.find("ul",{"class": "chartlist"}).get_text()
+    try:
+        data = soup.find("ul",{"class": "chartlist1"}).get_text()
+    except:
+        send_email()
+        print("\n죄송합니다. 원본사이트에 접근 할 수 없습니다.\n확인 후 다음 업데이트에 적용하겠습니다.")
+        return
     f = open("tmp/1_cpu.csv", 'w+', encoding='UTF8')
     f.write(data)
     f.close()
@@ -171,7 +200,12 @@ def extract_cpu():
         printProgress(i+1, l, prefix = '1)Progress:', suffix = 'CPU Data Extracting', length = 50)
     res = requests.get('https://www.cpubenchmark.net/mid_range_cpus.html')
     soup = BeautifulSoup(res.content, 'lxml')
-    data = soup.find("ul",{"class": "chartlist"}).get_text()
+    try:
+        data = soup.find("ul",{"class": "chartlist"}).get_text()
+    except:
+        send_email()
+        print("\n죄송합니다. 원본사이트에 접근 할 수 없습니다.\n확인 후 다음 업데이트에 적용하겠습니다.")
+        return
     f = open("tmp/2_cpu.csv", 'w+', encoding='UTF8')
     f.write(data)
     f.close()
@@ -181,7 +215,12 @@ def extract_cpu():
         printProgress(i+1, l, prefix = '2)Progress:', suffix = 'CPU Data Extracting', length = 50)
     res = requests.get('https://www.cpubenchmark.net/midlow_range_cpus.html')
     soup = BeautifulSoup(res.content, 'lxml')
-    data = soup.find("ul",{"class": "chartlist"}).get_text()
+    try:
+        data = soup.find("ul",{"class": "chartlist"}).get_text()
+    except:
+        send_email()
+        print("\n죄송합니다. 원본사이트에 접근 할 수 없습니다.\n확인 후 다음 업데이트에 적용하겠습니다.")
+        return
     f = open("tmp/3_cpu.csv", 'w+', encoding='UTF8')
     f.write(data)
     f.close()
@@ -191,7 +230,12 @@ def extract_cpu():
         printProgress(i+1, l, prefix = '3)Progress:', suffix = 'CPU Data Extracting', length = 50)
     res = requests.get('https://www.cpubenchmark.net/low_end_cpus.html')
     soup = BeautifulSoup(res.content, 'lxml')
-    data = soup.find("ul",{"class": "chartlist"}).get_text()
+    try:
+        data = soup.find("ul",{"class": "chartlist"}).get_text()
+    except:
+        send_email()
+        print("\n죄송합니다. 원본사이트에 접근 할 수 없습니다.\n확인 후 다음 업데이트에 적용하겠습니다.")
+        return
     f = open("tmp/4_cpu.csv", 'w+', encoding='UTF8')
     f.write(data)
     f.close()
@@ -209,7 +253,12 @@ def extract_gpu():
     printProgress(0, 1, prefix = 'Progress:', suffix = 'GPU Data Extract Ready', length = 50)
     res = requests.get('https://www.videocardbenchmark.net/high_end_gpus.html')
     soup = BeautifulSoup(res.content, 'lxml')
-    data = soup.find("ul",{"class": "chartlist"}).get_text()
+    try:
+        data = soup.find("ul",{"class": "chartlist"}).get_text()
+    except:
+        send_email()
+        print("\n죄송합니다. 원본사이트에 접근 할 수 없습니다.\n확인 후 다음 업데이트에 적용하겠습니다.")
+        return
     f = open("tmp/1_gpu.csv", 'w+', encoding='UTF8')
     f.write(data)
     f.close()
@@ -219,7 +268,12 @@ def extract_gpu():
         printProgress(i+1, l, prefix = '1)Progress:', suffix = 'GPU Data Extracting', length = 50)
     res = requests.get('https://www.videocardbenchmark.net/mid_range_gpus.html')
     soup = BeautifulSoup(res.content, 'lxml')
-    data = soup.find("ul",{"class": "chartlist"}).get_text()
+    try:
+        data = soup.find("ul",{"class": "chartlist"}).get_text()
+    except:
+        send_email()
+        print("\n죄송합니다. 원본사이트에 접근 할 수 없습니다.\n확인 후 다음 업데이트에 적용하겠습니다.")
+        return
     f = open("tmp/2_gpu.csv", 'w+', encoding='UTF8')
     f.write(data)
     f.close()
@@ -229,7 +283,12 @@ def extract_gpu():
         printProgress(i+1, l, prefix = '2)Progress:', suffix = 'GPU Data Extracting', length = 50)
     res = requests.get('https://www.videocardbenchmark.net/midlow_range_gpus.html')
     soup = BeautifulSoup(res.content, 'lxml')
-    data = soup.find("ul",{"class": "chartlist"}).get_text()
+    try:
+        data = soup.find("ul",{"class": "chartlist"}).get_text()
+    except:
+        send_email()
+        print("\n죄송합니다. 원본사이트에 접근 할 수 없습니다.\n확인 후 다음 업데이트에 적용하겠습니다.")
+        return
     f = open("tmp/3_gpu.csv", 'w+', encoding='UTF8')
     f.write(data)
     f.close()
@@ -239,7 +298,12 @@ def extract_gpu():
         printProgress(i+1, l, prefix = '3)Progress:', suffix = 'GPU Data Extracting', length = 50)
     res = requests.get('https://www.videocardbenchmark.net/low_end_gpus.html')
     soup = BeautifulSoup(res.content, 'lxml')
-    data = soup.find("ul",{"class": "chartlist"}).get_text()
+    try:
+        data = soup.find("ul",{"class": "chartlist"}).get_text()
+    except:
+        send_email()
+        print("\n죄송합니다. 원본사이트에 접근 할 수 없습니다.\n확인 후 다음 업데이트에 적용하겠습니다.")
+        return
     f = open("tmp/4_gpu.csv", 'w+', encoding='UTF8')
     f.write(data)
     f.close()
