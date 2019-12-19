@@ -43,6 +43,8 @@ _format = 0
 
 c_rank = 1
 g_rank = 1
+d_rank = 1
+r_rank = 1
 
 # 진행율 출력함수
 def printProgress (iteration, total, prefix = '', suffix = '', decimals = 1, length=100, fill='#'):
@@ -58,9 +60,11 @@ def printProgress (iteration, total, prefix = '', suffix = '', decimals = 1, len
 def help_print():
     print("\nUsage: AutoBench [--help] [--version] <csv|xlsx|xls> <command> [<args>]")
     print("         <csv|xlsx|xls>\tExport to csv, xlsx or xls files.(default .csv)")
-    print("         blank(cpu&gpu)\tExtract both CPU and GPU Data")
+    print("         blank(cpu&gpu)\tExtract CPU,GPU,Drive and RAM Data")
     print("         cpu\t\t\tExtract Only CPU Data")
     print("         gpu\t\t\tExtract Only GPU Data")
+    print("         drive\t\t\tExtract Only Drive Data")
+    print("         ram\t\t\tExtract Only RAM Data")
 
 # 임시 파일 제거 함수
 def file_delete(find):
@@ -69,11 +73,21 @@ def file_delete(find):
         os.remove("tmp/2_cpu.csv")
         os.remove("tmp/3_cpu.csv")
         os.remove("tmp/4_cpu.csv")
-    else:
+    elif find == "gpu":
         os.remove("tmp/1_gpu.csv")
         os.remove("tmp/2_gpu.csv")
         os.remove("tmp/3_gpu.csv")
         os.remove("tmp/4_gpu.csv")
+    elif find == "drive":
+        os.remove("tmp/1_drive.csv")
+        os.remove("tmp/2_drive.csv")
+        os.remove("tmp/3_drive.csv")
+        os.remove("tmp/4_drive.csv")
+    elif find == "ram":
+        os.remove("tmp/1_ram.csv")
+        os.remove("tmp/2_ram.csv")
+        os.remove("tmp/3_ram.csv")
+        os.remove("tmp/4_ram.csv")
 
 def dayfilename(find):
     now = datetime.now()
@@ -94,7 +108,7 @@ def dayfilename(find):
                 if len(name) < 8:
                     new_name = day + "-"+ name
                     rename(name,new_name)
-    else:
+    elif find == "gpu":
         for name in files:
             if "gpu.csv" in name:
                 if len(name) < 8:
@@ -105,6 +119,34 @@ def dayfilename(find):
                     new_name = day + "-"+ name
                     rename(name,new_name)
             elif "gpu.xls" in name:
+                if len(name) < 8:
+                    new_name = day + "-"+ name
+                    rename(name,new_name)
+    elif find == "drive":
+        for name in files:
+            if "drive.csv" in name:
+                if len(name) < 8:
+                    new_name = day + "-"+ name
+                    rename(name,new_name)
+            elif "drive.xlsx" in name:
+                if len(name) < 9:
+                    new_name = day + "-"+ name
+                    rename(name,new_name)
+            elif "drive.xls" in name:
+                if len(name) < 8:
+                    new_name = day + "-"+ name
+                    rename(name,new_name)
+    elif find == "ram":
+        for name in files:
+            if "ram.csv" in name:
+                if len(name) < 8:
+                    new_name = day + "-"+ name
+                    rename(name,new_name)
+            elif "ram.xlsx" in name:
+                if len(name) < 9:
+                    new_name = day + "-"+ name
+                    rename(name,new_name)
+            elif "ram.xls" in name:
                 if len(name) < 8:
                     new_name = day + "-"+ name
                     rename(name,new_name)
@@ -144,11 +186,21 @@ def convert_excel(find):
         ws2.title = '중상위 CPU'
         ws3.title = '중하위 CPU'
         ws4.title = '하위 CPU'
-    else:
+    elif find == "gpu":
         ws1.title = '최상위 GPU'
         ws2.title = '중상위 GPU'
         ws3.title = '중하위 GPU'
         ws4.title = '하위 GPU'
+    elif find == "drive":
+        ws1.title = '최상위 Drive'
+        ws2.title = '중상위 Drive'
+        ws3.title = '중하위 Drive'
+        ws4.title = '하위 Drive'
+    elif find == "ram":
+        ws1.title = '최상위 RAM'
+        ws2.title = '중상위 RAM'
+        ws3.title = '중하위 RAM'
+        ws4.title = '하위 RAM'
     
     if _format == 0:
         savefile = "" + find + ".xlsx"
@@ -187,7 +239,7 @@ def convert_excel(find):
                 for c, col in enumerate(row):
                     for idx, val in enumerate(col.split(CSV_SEPARATOR)):
                         ws4.cell(r+1,c+1,val)
-    else:
+    elif find == "gpu":
         with open("tmp/1_gpu.csv") as f:
             reader = csv.reader(f)
             for r, row in enumerate(reader):
@@ -210,6 +262,62 @@ def convert_excel(find):
                         ws3.cell(r+1,c+1,val)
 
         with open("tmp/4_gpu.csv") as f:
+            reader = csv.reader(f)
+            for r, row in enumerate(reader):
+                for c, col in enumerate(row):
+                    for idx, val in enumerate(col.split(CSV_SEPARATOR)):
+                        ws4.cell(r+1,c+1,val)
+    elif find == "drive":
+        with open("tmp/1_drive.csv") as f:
+            reader = csv.reader(f)
+            for r, row in enumerate(reader):
+                for c, col in enumerate(row):
+                    for idx, val in enumerate(col.split(CSV_SEPARATOR)):
+                        ws1.cell(r+1,c+1,val)
+
+        with open("tmp/2_drive.csv") as f:
+            reader = csv.reader(f)
+            for r, row in enumerate(reader):
+                for c, col in enumerate(row):
+                    for idx, val in enumerate(col.split(CSV_SEPARATOR)):
+                        ws2.cell(r+1,c+1,val)
+
+        with open("tmp/3_drive.csv") as f:
+            reader = csv.reader(f)
+            for r, row in enumerate(reader):
+                for c, col in enumerate(row):
+                    for idx, val in enumerate(col.split(CSV_SEPARATOR)):
+                        ws3.cell(r+1,c+1,val)
+
+        with open("tmp/4_drive.csv") as f:
+            reader = csv.reader(f)
+            for r, row in enumerate(reader):
+                for c, col in enumerate(row):
+                    for idx, val in enumerate(col.split(CSV_SEPARATOR)):
+                        ws4.cell(r+1,c+1,val)
+    elif find == "ram":
+        with open("tmp/1_ram.csv") as f:
+            reader = csv.reader(f)
+            for r, row in enumerate(reader):
+                for c, col in enumerate(row):
+                    for idx, val in enumerate(col.split(CSV_SEPARATOR)):
+                        ws1.cell(r+1,c+1,val)
+
+        with open("tmp/2_ram.csv") as f:
+            reader = csv.reader(f)
+            for r, row in enumerate(reader):
+                for c, col in enumerate(row):
+                    for idx, val in enumerate(col.split(CSV_SEPARATOR)):
+                        ws2.cell(r+1,c+1,val)
+
+        with open("tmp/3_ram.csv") as f:
+            reader = csv.reader(f)
+            for r, row in enumerate(reader):
+                for c, col in enumerate(row):
+                    for idx, val in enumerate(col.split(CSV_SEPARATOR)):
+                        ws3.cell(r+1,c+1,val)
+
+        with open("tmp/4_ram.csv") as f:
             reader = csv.reader(f)
             for r, row in enumerate(reader):
                 for c, col in enumerate(row):
@@ -360,10 +468,154 @@ def extract_gpu():
     convert_excel("gpu")
     file_delete("gpu")
     dayfilename("gpu")
+    
+# Drive Crawling
+def extract_drive():
+    items = list(range(0,100))
+    l = len(items)
+    printProgress(0, 1, prefix = 'Progress:', suffix = 'Drive Data Extract Ready', length = 50)
+    res = requests.get('https://www.harddrivebenchmark.net/high_end_drives.html')
+    soup = BeautifulSoup(res.content, 'lxml')
+    try:
+        data = soup.find("ul",{"class": "chartlist"}).get_text()
+    except:
+        send_email()
+        print("\n죄송합니다. 원본사이트에 접근 할 수 없습니다.\n확인 후 다음 업데이트에 적용하겠습니다.")
+        return
+    f = open("tmp/1_drive.csv", 'w+', encoding='UTF8')
+    f.write(data)
+    f.close()
+    make_csv_new_d('1_drive')
+    for i, item in enumerate(items):
+        sleep(0.001)
+        printProgress(i+1, l, prefix = '1)Progress:', suffix = 'Drive Data Extracting', length = 50)
+    res = requests.get('https://www.harddrivebenchmark.net/mid_range_drives.html')
+    soup = BeautifulSoup(res.content, 'lxml')
+    try:
+        data = soup.find("ul",{"class": "chartlist"}).get_text()
+    except:
+        send_email()
+        print("\n죄송합니다. 원본사이트에 접근 할 수 없습니다.\n확인 후 다음 업데이트에 적용하겠습니다.")
+        return
+    f = open("tmp/2_drive.csv", 'w+', encoding='UTF8')
+    f.write(data)
+    f.close()
+    make_csv_new_d('2_drive')
+    for i, item in enumerate(items):
+        sleep(0.001)
+        printProgress(i+1, l, prefix = '2)Progress:', suffix = 'Drive Data Extracting', length = 50)
+    res = requests.get('https://www.harddrivebenchmark.net/low_mid_range_drives.html')
+    soup = BeautifulSoup(res.content, 'lxml')
+    try:
+        data = soup.find("ul",{"class": "chartlist"}).get_text()
+    except:
+        send_email()
+        print("\n죄송합니다. 원본사이트에 접근 할 수 없습니다.\n확인 후 다음 업데이트에 적용하겠습니다.")
+        return
+    f = open("tmp/3_drive.csv", 'w+', encoding='UTF8')
+    f.write(data)
+    f.close()
+    make_csv_new_d('3_drive')
+    for i, item in enumerate(items):
+        sleep(0.001)
+        printProgress(i+1, l, prefix = '3)Progress:', suffix = 'Drive Data Extracting', length = 50)
+    res = requests.get('https://www.harddrivebenchmark.net/low_end_drives.html')
+    soup = BeautifulSoup(res.content, 'lxml')
+    try:
+        data = soup.find("ul",{"class": "chartlist"}).get_text()
+    except:
+        send_email()
+        print("\n죄송합니다. 원본사이트에 접근 할 수 없습니다.\n확인 후 다음 업데이트에 적용하겠습니다.")
+        return
+    f = open("tmp/4_drive.csv", 'w+', encoding='UTF8')
+    f.write(data)
+    f.close()
+    make_csv_new_d('4_drive')
+    for i, item in enumerate(items):
+        sleep(0.001)
+        printProgress(i+1, l, prefix = '4)Progress:', suffix = 'Drive Data Extracting', length = 50)
+    print('Drive Data Extract Complete!!!')
+    
+    convert_excel("drive")
+    file_delete("drive")
+    dayfilename("drive")
+
+# RAM Crawling
+def extract_ram():
+    items = list(range(0,100))
+    l = len(items)
+    printProgress(0, 1, prefix = 'Progress:', suffix = 'RAM Data Extract Ready', length = 50)
+    res = requests.get('https://www.memorybenchmark.net/high_end_drives.html')
+    soup = BeautifulSoup(res.content, 'lxml')
+    try:
+        data = soup.find("ul",{"class": "chartlist"}).get_text()
+    except:
+        send_email()
+        print("\n죄송합니다. 원본사이트에 접근 할 수 없습니다.\n확인 후 다음 업데이트에 적용하겠습니다.")
+        return
+    f = open("tmp/1_ram.csv", 'w+', encoding='UTF8')
+    f.write(data)
+    f.close()
+    make_csv_new_d('1_ram')
+    for i, item in enumerate(items):
+        sleep(0.001)
+        printProgress(i+1, l, prefix = '1)Progress:', suffix = 'RAM Data Extracting', length = 50)
+    res = requests.get('https://www.memorybenchmark.net/mid_range_rams.html')
+    soup = BeautifulSoup(res.content, 'lxml')
+    try:
+        data = soup.find("ul",{"class": "chartlist"}).get_text()
+    except:
+        send_email()
+        print("\n죄송합니다. 원본사이트에 접근 할 수 없습니다.\n확인 후 다음 업데이트에 적용하겠습니다.")
+        return
+    f = open("tmp/2_ram.csv", 'w+', encoding='UTF8')
+    f.write(data)
+    f.close()
+    make_csv_new_d('2_ram')
+    for i, item in enumerate(items):
+        sleep(0.001)
+        printProgress(i+1, l, prefix = '2)Progress:', suffix = 'RAM Data Extracting', length = 50)
+    res = requests.get('https://www.memorybenchmark.net/low_mid_range_rams.html')
+    soup = BeautifulSoup(res.content, 'lxml')
+    try:
+        data = soup.find("ul",{"class": "chartlist"}).get_text()
+    except:
+        send_email()
+        print("\n죄송합니다. 원본사이트에 접근 할 수 없습니다.\n확인 후 다음 업데이트에 적용하겠습니다.")
+        return
+    f = open("tmp/3_ram.csv", 'w+', encoding='UTF8')
+    f.write(data)
+    f.close()
+    make_csv_new_d('3_ram')
+    for i, item in enumerate(items):
+        sleep(0.001)
+        printProgress(i+1, l, prefix = '3)Progress:', suffix = 'RAM Data Extracting', length = 50)
+    res = requests.get('https://www.memorybenchmark.net/low_end_rams.html')
+    soup = BeautifulSoup(res.content, 'lxml')
+    try:
+        data = soup.find("ul",{"class": "chartlist"}).get_text()
+    except:
+        send_email()
+        print("\n죄송합니다. 원본사이트에 접근 할 수 없습니다.\n확인 후 다음 업데이트에 적용하겠습니다.")
+        return
+    f = open("tmp/4_ram.csv", 'w+', encoding='UTF8')
+    f.write(data)
+    f.close()
+    make_csv_new_d('4_ram')
+    for i, item in enumerate(items):
+        sleep(0.001)
+        printProgress(i+1, l, prefix = '4)Progress:', suffix = 'RAM Data Extracting', length = 50)
+    print('RAM Data Extract Complete!!!')
+    
+    convert_excel("ram")
+    file_delete("ram")
+    dayfilename("ram")
 
 def extract_all():
     extract_cpu()
     extract_gpu()
+    extract_drive()
+    extract_ram()
 
 # 인자 처리기
 def input_command(args):
@@ -396,20 +648,32 @@ def input_command(args):
         elif i == "gpu":
             extract_gpu()
             return
+        elif i == "drive":
+            extract_drive()
+            return
+        elif i == "ram":
+            # extract_ram()
+            return
         
         if len(args) == 1:
             if args[0] == "csv":
                 _format = 0
                 extract_cpu()
                 extract_gpu()
+                extract_drive()
+                # extract_ram()
             elif args[0] == "xlsx":
                 _format = 1
                 extract_cpu()
                 extract_gpu()
+                extract_drive()
+                # extract_ram()
             elif args[0] == "xls":
                 _format = 2
                 extract_cpu()
                 extract_gpu()
+                extract_drive()
+                # extract_ram()
 
 # Make CPU Data
 def make_csv_new(name):
@@ -493,7 +757,87 @@ def make_csv_new_g(name):
         else:
             f.write(i + ",")
             count+=1
-    f.close()       
+    f.close()
+
+# Make Drive Data
+def make_csv_new_d(name):
+    str = []
+    tmp = []
+    count = 1
+    global d_rank
+    
+    f = open("tmp/"+name+".csv", 'r', encoding='UTF8')
+    lines = f.readlines()
+    for line in lines[:]:
+        str.append(line)
+    f.close()
+    
+    for i in str:
+        if len(i) > 1:
+            i = i.replace(",","").strip()
+            if count%3 == 1:
+                str_rank = repr(d_rank)
+                tmp.append(str_rank + "," + i)
+                d_rank+=1
+                count+=1
+            elif count%3 == 2:
+                tmp.append(i[i.find(')') + 2:])
+                count+=1
+            elif count%3 == 0:
+                count+=1
+
+    count = 1
+
+    f = open("tmp/"+name+".csv", 'w+', encoding='UTF8')
+    for i in tmp:
+        if count%2 == 0:
+            f.write(i)
+            f.write("\n")
+            count+=1
+        else:
+            f.write(i + ",")
+            count+=1
+    f.close()
+
+# Make RAM Data
+def make_csv_new_r(name):
+    str = []
+    tmp = []
+    count = 1
+    global r_rank
+    
+    f = open("tmp/"+name+".csv", 'r', encoding='UTF8')
+    lines = f.readlines()
+    for line in lines[:]:
+        str.append(line)
+    f.close()
+    
+    for i in str:
+        if len(i) > 1:
+            i = i.replace(",","").strip()
+            if count%3 == 1:
+                str_rank = repr(r_rank)
+                tmp.append(str_rank + "," + i)
+                r_rank+=1
+                count+=1
+            elif count%3 == 2:
+                tmp.append(i[i.find(')') + 2:])
+                count+=1
+            elif count%3 == 0:
+                count+=1
+
+    count = 1
+
+    f = open("tmp/"+name+".csv", 'w+', encoding='UTF8')
+    for i in tmp:
+        if count%2 == 0:
+            f.write(i)
+            f.write("\n")
+            count+=1
+        else:
+            f.write(i + ",")
+            count+=1
+    f.close()
 
 # 시작 지점
 if __name__ == "__main__":
