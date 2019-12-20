@@ -633,7 +633,7 @@ def extract_ram():
         printProgress(i+1, l, prefix = '4)Progress:', suffix = 'RAM Data Extracting', length = 50)
         
         
-    res = requests.get('https://www.memorybenchmark.net/write_ddr4_intel.html')
+    res = requests.get('https://www.memorybenchmark.net/write_ddr3_intel.html')
     soup = BeautifulSoup(res.content, 'lxml')
     try:
         data = soup.find("ul",{"class": "chartlist"}).get_text()
