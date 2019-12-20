@@ -127,15 +127,15 @@ def dayfilename(find):
     elif find == "drive":
         for name in files:
             if "drive.csv" in name:
-                if len(name) < 8:
+                if len(name) < 12:
                     new_name = day + "-"+ name
                     rename(name,new_name)
             elif "drive.xlsx" in name:
-                if len(name) < 9:
+                if len(name) < 13:
                     new_name = day + "-"+ name
                     rename(name,new_name)
             elif "drive.xls" in name:
-                if len(name) < 8:
+                if len(name) < 12:
                     new_name = day + "-"+ name
                     rename(name,new_name)
     elif find == "ram":
