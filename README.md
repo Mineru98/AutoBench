@@ -2,12 +2,12 @@
 
 **Version 0.2.2**<br>
 이 프로그램은 벤치 마크 사이트로부터 최신 CPU와 GPU 성능 점수와 순위를 추출 프로그램입니다.<br>
-csv 확장자로 결과를 보여줍니다.<br>
+csv, xlsx, xls 확장자로 결과를 보여줍니다.<br>
 CPU 정보는 모델 이름, 점수로 작성됩니다.<br>
 GPU 정보는 모델 이름, 점수로 작성됩니다.<br>
 
 This program is a program that extracts the latest CPU and GPU performance scores and rankings from benchmark sites.<br>
-The Output Data is saved as a csv file.<br>
+The Output Data is saved as a csv, xlsx and xls file.
 CPU information is written by model name and score.<br>
 GPU information is written by model name and score.<br>
 
