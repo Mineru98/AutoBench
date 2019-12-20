@@ -180,6 +180,8 @@ def convert_excel(find):
     ws2 = wb.create_sheet()
     ws3 = wb.create_sheet()
     ws4 = wb.create_sheet()
+    ws5 = wb.create_sheet()
+    ws6 = wb.create_sheet()
     
     if find == "cpu":
         ws1.title = '최상위 CPU'
@@ -197,10 +199,12 @@ def convert_excel(find):
         ws3.title = '중하위 Drive'
         ws4.title = '하위 Drive'
     elif find == "ram":
-        ws1.title = '최상위 RAM'
-        ws2.title = '중상위 RAM'
-        ws3.title = '중하위 RAM'
-        ws4.title = '하위 RAM'
+        ws1.title = 'DDR4 RAM Read'
+        ws2.title = 'DDR4 RAM Write'
+        ws3.title = 'DDR4 RAM Latency'
+        ws4.title = 'DDR3 RAM Read'
+        ws5.title = 'DDR3 RAM Write'
+        ws6.title = 'DDR3 RAM Latency'
     
     if _format == 0:
         savefile = "" + find + ".xlsx"
@@ -296,28 +300,42 @@ def convert_excel(find):
                     for idx, val in enumerate(col.split(CSV_SEPARATOR)):
                         ws4.cell(r+1,c+1,val)
     elif find == "ram":
-        with open("tmp/1_ram.csv") as f:
+        with open("tmp/r_ddr4_ram.csv") as f:
             reader = csv.reader(f)
             for r, row in enumerate(reader):
                 for c, col in enumerate(row):
                     for idx, val in enumerate(col.split(CSV_SEPARATOR)):
                         ws1.cell(r+1,c+1,val)
 
-        with open("tmp/2_ram.csv") as f:
+        with open("tmp/w_ddr4_ram.csv") as f:
             reader = csv.reader(f)
             for r, row in enumerate(reader):
                 for c, col in enumerate(row):
                     for idx, val in enumerate(col.split(CSV_SEPARATOR)):
                         ws2.cell(r+1,c+1,val)
 
-        with open("tmp/3_ram.csv") as f:
+        with open("tmp/l_ddr4_ram.csv") as f:
             reader = csv.reader(f)
             for r, row in enumerate(reader):
                 for c, col in enumerate(row):
                     for idx, val in enumerate(col.split(CSV_SEPARATOR)):
                         ws3.cell(r+1,c+1,val)
 
-        with open("tmp/4_ram.csv") as f:
+        with open("tmp/r_ddr3_ram.csv") as f:
+            reader = csv.reader(f)
+            for r, row in enumerate(reader):
+                for c, col in enumerate(row):
+                    for idx, val in enumerate(col.split(CSV_SEPARATOR)):
+                        ws4.cell(r+1,c+1,val)
+
+        with open("tmp/w_ddr3_ram.csv") as f:
+            reader = csv.reader(f)
+            for r, row in enumerate(reader):
+                for c, col in enumerate(row):
+                    for idx, val in enumerate(col.split(CSV_SEPARATOR)):
+                        ws4.cell(r+1,c+1,val)
+
+        with open("tmp/l_ddr3_ram.csv") as f:
             reader = csv.reader(f)
             for r, row in enumerate(reader):
                 for c, col in enumerate(row):
@@ -545,7 +563,9 @@ def extract_ram():
     items = list(range(0,100))
     l = len(items)
     printProgress(0, 1, prefix = 'Progress:', suffix = 'RAM Data Extract Ready', length = 50)
-    res = requests.get('https://www.memorybenchmark.net/high_end_drives.html')
+    
+    
+    res = requests.get('https://www.memorybenchmark.net/read_uncached_ddr4_intel.html')
     soup = BeautifulSoup(res.content, 'lxml')
     try:
         data = soup.find("ul",{"class": "chartlist"}).get_text()
@@ -553,14 +573,16 @@ def extract_ram():
         send_email()
         print("\n죄송합니다. 원본사이트에 접근 할 수 없습니다.\n확인 후 다음 업데이트에 적용하겠습니다.")
         return
-    f = open("tmp/1_ram.csv", 'w+', encoding='UTF8')
+    f = open("tmp/r_ddr4_ram.csv", 'w+', encoding='UTF8')
     f.write(data)
     f.close()
-    make_csv_new_d('1_ram')
+    make_csv_new_r('r_ddr4_ram')
     for i, item in enumerate(items):
         sleep(0.001)
         printProgress(i+1, l, prefix = '1)Progress:', suffix = 'RAM Data Extracting', length = 50)
-    res = requests.get('https://www.memorybenchmark.net/mid_range_rams.html')
+        
+        
+    res = requests.get('https://www.memorybenchmark.net/write_ddr4_intel.html')
     soup = BeautifulSoup(res.content, 'lxml')
     try:
         data = soup.find("ul",{"class": "chartlist"}).get_text()
@@ -568,14 +590,16 @@ def extract_ram():
         send_email()
         print("\n죄송합니다. 원본사이트에 접근 할 수 없습니다.\n확인 후 다음 업데이트에 적용하겠습니다.")
         return
-    f = open("tmp/2_ram.csv", 'w+', encoding='UTF8')
+    f = open("tmp/w_ddr4_ram.csv", 'w+', encoding='UTF8')
     f.write(data)
     f.close()
-    make_csv_new_d('2_ram')
+    make_csv_new_r('w_ddr4_ram')
     for i, item in enumerate(items):
         sleep(0.001)
         printProgress(i+1, l, prefix = '2)Progress:', suffix = 'RAM Data Extracting', length = 50)
-    res = requests.get('https://www.memorybenchmark.net/low_mid_range_rams.html')
+        
+        
+    res = requests.get('https://www.memorybenchmark.net/latency_ddr4_intel.html')
     soup = BeautifulSoup(res.content, 'lxml')
     try:
         data = soup.find("ul",{"class": "chartlist"}).get_text()
@@ -583,14 +607,16 @@ def extract_ram():
         send_email()
         print("\n죄송합니다. 원본사이트에 접근 할 수 없습니다.\n확인 후 다음 업데이트에 적용하겠습니다.")
         return
-    f = open("tmp/3_ram.csv", 'w+', encoding='UTF8')
+    f = open("tmp/l_ddr4_ram.csv", 'w+', encoding='UTF8')
     f.write(data)
     f.close()
-    make_csv_new_d('3_ram')
+    make_csv_new_r('l_ddr4_ram')
     for i, item in enumerate(items):
         sleep(0.001)
         printProgress(i+1, l, prefix = '3)Progress:', suffix = 'RAM Data Extracting', length = 50)
-    res = requests.get('https://www.memorybenchmark.net/low_end_rams.html')
+        
+        
+    res = requests.get('https://www.memorybenchmark.net/read_uncached_ddr3_intel.html')
     soup = BeautifulSoup(res.content, 'lxml')
     try:
         data = soup.find("ul",{"class": "chartlist"}).get_text()
@@ -598,14 +624,49 @@ def extract_ram():
         send_email()
         print("\n죄송합니다. 원본사이트에 접근 할 수 없습니다.\n확인 후 다음 업데이트에 적용하겠습니다.")
         return
-    f = open("tmp/4_ram.csv", 'w+', encoding='UTF8')
+    f = open("tmp/r_ddr3_ram.csv", 'w+', encoding='UTF8')
     f.write(data)
     f.close()
-    make_csv_new_d('4_ram')
-    for i, item in enumerate(items):
+    make_csv_new_r('r_ddr3_ram')
+     for i, item in enumerate(items):
         sleep(0.001)
         printProgress(i+1, l, prefix = '4)Progress:', suffix = 'RAM Data Extracting', length = 50)
+        
+        
+    res = requests.get('https://www.memorybenchmark.net/write_ddr4_intel.html')
+    soup = BeautifulSoup(res.content, 'lxml')
+    try:
+        data = soup.find("ul",{"class": "chartlist"}).get_text()
+    except:
+        send_email()
+        print("\n죄송합니다. 원본사이트에 접근 할 수 없습니다.\n확인 후 다음 업데이트에 적용하겠습니다.")
+        return
+    f = open("tmp/w_ddr3_ram.csv", 'w+', encoding='UTF8')
+    f.write(data)
+    f.close()
+    make_csv_new_r('w_ddr3_ram')
+    for i, item in enumerate(items):
+        sleep(0.001)
+        printProgress(i+1, l, prefix = '5)Progress:', suffix = 'RAM Data Extracting', length = 50)
+        
+        
+    res = requests.get('https://www.memorybenchmark.net/latency_ddr3_intel.html')
+    soup = BeautifulSoup(res.content, 'lxml')
+    try:
+        data = soup.find("ul",{"class": "chartlist"}).get_text()
+    except:
+        send_email()
+        print("\n죄송합니다. 원본사이트에 접근 할 수 없습니다.\n확인 후 다음 업데이트에 적용하겠습니다.")
+        return
+    f = open("tmp/l_ddr4_ram.csv", 'w+', encoding='UTF8')
+    f.write(data)
+    f.close()
+    make_csv_new_r('l_ddr3_ram')
+    for i, item in enumerate(items):
+        sleep(0.001)
+        printProgress(i+1, l, prefix = '6)Progress:', suffix = 'RAM Data Extracting', length = 50)
     print('RAM Data Extract Complete!!!')
+    
     
     convert_excel("ram")
     file_delete("ram")
