@@ -628,7 +628,7 @@ def extract_ram():
     f.write(data)
     f.close()
     make_csv_new_r('r_ddr3_ram')
-     for i, item in enumerate(items):
+    for i, item in enumerate(items):
         sleep(0.001)
         printProgress(i+1, l, prefix = '4)Progress:', suffix = 'RAM Data Extracting', length = 50)
         
