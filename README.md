@@ -12,10 +12,9 @@ CPU information is written by model name and score.<br>
 GPU information is written by model name and score.<br>
 
 ## 다운로드(Download)
-|  | ![Windows](https://icongr.am/devicon/windows8-original.svg) Windows | ![Linux](https://icongr.am/devicon/linux-original.svg) Linux | ![Apple](https://icongr.am/devicon/apple-original.svg) MacOS |
-|-|-|-|-|
-| x64 |  [Windows 64bit](https://sourceforge.net/projects/autobench/files/v0.2.2/Windows%28x64%29/) |  [Linux 64bit](https://sourceforge.net/projects/autobench/files/v0.2.2/Linux64/) | [MacOS](https://sourceforge.net/projects/autobench/files/v0.2.2/MacOS/) |
-| x86 | [Windows 32bit](https://sourceforge.net/projects/autobench/files/v0.2.2/Windows%28x86%29/) | [Linux 32bit](https://sourceforge.net/projects/autobench/files/v0.2.2/Linux32/) | [MacOS](https://sourceforge.net/projects/autobench/files/v0.2.2/MacOS/) |
+|  | ![Linux](https://icongr.am/devicon/linux-original.svg) Linux |
+|-|-|
+| x64 | [![Download AutoBench](https://a.fsdn.com/con/app/sf-download-button)](https://sourceforge.net/projects/autobench/files/v0.2.2/Linux%28x64%29/AutoBench.v0.2.2_linux_x64/download) |
 
 ## 사용법(Usage)
 ```
