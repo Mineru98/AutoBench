@@ -15,6 +15,14 @@ GPU information is written by model name and score.<br>
 Drive information is written by model name and score.<br>
 RAM information is written by model name and score.<br>
 
+## 다운로드(Download)
+|  | ![Windows](https://icongr.am/devicon/windows8-original.svg) Windows | ![Linux](https://icongr.am/devicon/linux-original.svg) Linux | ![Apple](https://icongr.am/devicon/apple-original.svg) MacOS |
+|-|-|-|-|
+| x64 |  [Windows 64bit](https://sourceforge.net/projects/autobench/files/v1.1.0/Windows%28x64%29/) |  [Linux 64bit](https://sourceforge.net/projects/autobench/files/v1.1.0/Linux64/) | [MacOS](https://sourceforge.net/projects/autobench/files/v1.1.0/MacOS/) |
+| x86 | [Windows 32bit](https://sourceforge.net/projects/autobench/files/v1.1.0/Windows%28x32%29/) | [Linux 32bit](https://sourceforge.net/projects/autobench/files/v1.1.0/Linux32/) | [MacOS](https://sourceforge.net/projects/autobench/files/v1.1.0/MacOS/) |
+
+
+
 ## 사용법(Usage)
 ```
 사용법: AutoBench [--help] [--version] <csv|xlsx|xls> <command> [<args>]
