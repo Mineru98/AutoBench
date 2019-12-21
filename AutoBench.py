@@ -23,6 +23,7 @@ from datetime import datetime
 from bs4 import BeautifulSoup
 
 # Multi Processing lib
+import multiprocessing
 from multiprocessing import Process
 
 # email sender
@@ -31,7 +32,7 @@ from _email import send as _email
 sys.stdout = io.TextIOWrapper(sys.stdout.detach(), encoding = 'utf-8')
 sys.stderr = io.TextIOWrapper(sys.stderr.detach(), encoding = 'utf-8')
 
-_format = 0
+_format = 1
 # _format 0 : .csv
 # _format 1 : .xlsx
 # _format 2 : .xls
@@ -204,144 +205,145 @@ def convert_excel(find):
 
     CSV_SEPARATOR = ","
 
-    column = 'B'
-    if find == "cpu":
-        # 각각을 쓰레드로 실행해볼까?
-        with open("tmp/1_cpu.csv", encoding='UTF8') as f:
-            reader = csv.reader(f)
-            for r, row in enumerate(reader):
-                for c, col in enumerate(row):
-                    for idx, val in enumerate(col.split(CSV_SEPARATOR)):
-                        ws1.cell(r+1,c+1,val)
+    try:
+        column = 'B'
+        if find == "cpu":
+            # 각각을 쓰레드로 실행해볼까?
+            with open("tmp/1_cpu.csv", encoding='UTF8') as f:
+                reader = csv.reader(f)
+                for r, row in enumerate(reader):
+                    for c, col in enumerate(row):
+                        for idx, val in enumerate(col.split(CSV_SEPARATOR)):
+                            ws1.cell(r+1,c+1,val)
 
-        with open("tmp/2_cpu.csv", encoding='UTF8') as f:
-            reader = csv.reader(f)
-            for r, row in enumerate(reader):
-                for c, col in enumerate(row):
-                    for idx, val in enumerate(col.split(CSV_SEPARATOR)):
-                        ws2.cell(r+1,c+1,val)
+            with open("tmp/2_cpu.csv", encoding='UTF8') as f:
+                reader = csv.reader(f)
+                for r, row in enumerate(reader):
+                    for c, col in enumerate(row):
+                        for idx, val in enumerate(col.split(CSV_SEPARATOR)):
+                            ws2.cell(r+1,c+1,val)
 
-        with open("tmp/3_cpu.csv", encoding='UTF8') as f:
-            reader = csv.reader(f)
-            for r, row in enumerate(reader):
-                for c, col in enumerate(row):
-                    for idx, val in enumerate(col.split(CSV_SEPARATOR)):
-                        ws3.cell(r+1,c+1,val)
+            with open("tmp/3_cpu.csv", encoding='UTF8') as f:
+                reader = csv.reader(f)
+                for r, row in enumerate(reader):
+                    for c, col in enumerate(row):
+                        for idx, val in enumerate(col.split(CSV_SEPARATOR)):
+                            ws3.cell(r+1,c+1,val)
 
-        with open("tmp/4_cpu.csv", encoding='UTF8') as f:
-            reader = csv.reader(f)
-            for r, row in enumerate(reader):
-                for c, col in enumerate(row):
-                    for idx, val in enumerate(col.split(CSV_SEPARATOR)):
-                        ws4.cell(r+1,c+1,val)
-                        
-    elif find == "gpu":
-        with open("tmp/1_gpu.csv", encoding='UTF8') as f:
-            reader = csv.reader(f)
-            for r, row in enumerate(reader):
-                for c, col in enumerate(row):
-                    for idx, val in enumerate(col.split(CSV_SEPARATOR)):
-                        ws1.cell(r+1,c+1,val)
+            with open("tmp/4_cpu.csv", encoding='UTF8') as f:
+                reader = csv.reader(f)
+                for r, row in enumerate(reader):
+                    for c, col in enumerate(row):
+                        for idx, val in enumerate(col.split(CSV_SEPARATOR)):
+                            ws4.cell(r+1,c+1,val)
 
-        with open("tmp/2_gpu.csv", encoding='UTF8') as f:
-            reader = csv.reader(f)
-            for r, row in enumerate(reader):
-                for c, col in enumerate(row):
-                    for idx, val in enumerate(col.split(CSV_SEPARATOR)):
-                        ws2.cell(r+1,c+1,val)
+        elif find == "gpu":
+            with open("tmp/1_gpu.csv", encoding='UTF8') as f:
+                reader = csv.reader(f)
+                for r, row in enumerate(reader):
+                    for c, col in enumerate(row):
+                        for idx, val in enumerate(col.split(CSV_SEPARATOR)):
+                            ws1.cell(r+1,c+1,val)
 
-        with open("tmp/3_gpu.csv", encoding='UTF8') as f:
-            reader = csv.reader(f)
-            for r, row in enumerate(reader):
-                for c, col in enumerate(row):
-                    for idx, val in enumerate(col.split(CSV_SEPARATOR)):
-                        ws3.cell(r+1,c+1,val)
+            with open("tmp/2_gpu.csv", encoding='UTF8') as f:
+                reader = csv.reader(f)
+                for r, row in enumerate(reader):
+                    for c, col in enumerate(row):
+                        for idx, val in enumerate(col.split(CSV_SEPARATOR)):
+                            ws2.cell(r+1,c+1,val)
 
-        with open("tmp/4_gpu.csv", encoding='UTF8') as f:
-            reader = csv.reader(f)
-            for r, row in enumerate(reader):
-                for c, col in enumerate(row):
-                    for idx, val in enumerate(col.split(CSV_SEPARATOR)):
-                        ws4.cell(r+1,c+1,val)
-                        
-    elif find == "drive":
-        with open("tmp/1_drive.csv", encoding='UTF8') as f:
-            reader = csv.reader(f)
-            for r, row in enumerate(reader):
-                for c, col in enumerate(row):
-                    for idx, val in enumerate(col.split(CSV_SEPARATOR)):
-                        ws1.cell(r+1,c+1,val)
+            with open("tmp/3_gpu.csv", encoding='UTF8') as f:
+                reader = csv.reader(f)
+                for r, row in enumerate(reader):
+                    for c, col in enumerate(row):
+                        for idx, val in enumerate(col.split(CSV_SEPARATOR)):
+                            ws3.cell(r+1,c+1,val)
 
-        with open("tmp/2_drive.csv", encoding='UTF8') as f:
-            reader = csv.reader(f)
-            for r, row in enumerate(reader):
-                for c, col in enumerate(row):
-                    for idx, val in enumerate(col.split(CSV_SEPARATOR)):
-                        ws2.cell(r+1,c+1,val)
-                        
-        with open("tmp/3_drive.csv", encoding='UTF8') as f:
-            reader = csv.reader(f)
-            for r, row in enumerate(reader):
-                for c, col in enumerate(row):
-                    for idx, val in enumerate(col.split(CSV_SEPARATOR)):
-                        ws3.cell(r+1,c+1,val)
+            with open("tmp/4_gpu.csv", encoding='UTF8') as f:
+                reader = csv.reader(f)
+                for r, row in enumerate(reader):
+                    for c, col in enumerate(row):
+                        for idx, val in enumerate(col.split(CSV_SEPARATOR)):
+                            ws4.cell(r+1,c+1,val)
 
-        with open("tmp/4_drive.csv", encoding='UTF8') as f:
-            reader = csv.reader(f)
-            for r, row in enumerate(reader):
-                for c, col in enumerate(row):
-                    for idx, val in enumerate(col.split(CSV_SEPARATOR)):
-                        ws4.cell(r+1,c+1,val)
-    elif find == "ram":
-        with open("tmp/r_ddr4_ram.csv", encoding='UTF8') as f:
-            reader = csv.reader(f)
-            for r, row in enumerate(reader):
-                for c, col in enumerate(row):
-                    for idx, val in enumerate(col.split(CSV_SEPARATOR)):
-                        ws1.cell(r+1,c+1,val)
+        elif find == "drive":
+            with open("tmp/1_drive.csv", encoding='UTF8') as f:
+                reader = csv.reader(f)
+                for r, row in enumerate(reader):
+                    for c, col in enumerate(row):
+                        for idx, val in enumerate(col.split(CSV_SEPARATOR)):
+                            ws1.cell(r+1,c+1,val)
 
-        with open("tmp/w_ddr4_ram.csv", encoding='UTF8') as f:
-            reader = csv.reader(f)
-            for r, row in enumerate(reader):
-                for c, col in enumerate(row):
-                    for idx, val in enumerate(col.split(CSV_SEPARATOR)):
-                        ws2.cell(r+1,c+1,val)
+            with open("tmp/2_drive.csv", encoding='UTF8') as f:
+                reader = csv.reader(f)
+                for r, row in enumerate(reader):
+                    for c, col in enumerate(row):
+                        for idx, val in enumerate(col.split(CSV_SEPARATOR)):
+                            ws2.cell(r+1,c+1,val)
 
-        with open("tmp/l_ddr4_ram.csv", encoding='UTF8') as f:
-            reader = csv.reader(f)
-            for r, row in enumerate(reader):
-                for c, col in enumerate(row):
-                    for idx, val in enumerate(col.split(CSV_SEPARATOR)):
-                        ws3.cell(r+1,c+1,val)
+            with open("tmp/3_drive.csv", encoding='UTF8') as f:
+                reader = csv.reader(f)
+                for r, row in enumerate(reader):
+                    for c, col in enumerate(row):
+                        for idx, val in enumerate(col.split(CSV_SEPARATOR)):
+                            ws3.cell(r+1,c+1,val)
 
-        with open("tmp/r_ddr3_ram.csv", encoding='UTF8') as f:
-            reader = csv.reader(f)
-            for r, row in enumerate(reader):
-                for c, col in enumerate(row):
-                    for idx, val in enumerate(col.split(CSV_SEPARATOR)):
-                        ws4.cell(r+1,c+1,val)
+            with open("tmp/4_drive.csv", encoding='UTF8') as f:
+                reader = csv.reader(f)
+                for r, row in enumerate(reader):
+                    for c, col in enumerate(row):
+                        for idx, val in enumerate(col.split(CSV_SEPARATOR)):
+                            ws4.cell(r+1,c+1,val)
+        elif find == "ram":
+            with open("tmp/r_ddr4_ram.csv", encoding='UTF8') as f:
+                reader = csv.reader(f)
+                for r, row in enumerate(reader):
+                    for c, col in enumerate(row):
+                        for idx, val in enumerate(col.split(CSV_SEPARATOR)):
+                            ws1.cell(r+1,c+1,val)
 
-        with open("tmp/w_ddr3_ram.csv", encoding='UTF8') as f:
-            reader = csv.reader(f)
-            for r, row in enumerate(reader):
-                for c, col in enumerate(row):
-                    for idx, val in enumerate(col.split(CSV_SEPARATOR)):
-                        ws5.cell(r+1,c+1,val)
-                        ws5.column_dimensions[column].width = 40
+            with open("tmp/w_ddr4_ram.csv", encoding='UTF8') as f:
+                reader = csv.reader(f)
+                for r, row in enumerate(reader):
+                    for c, col in enumerate(row):
+                        for idx, val in enumerate(col.split(CSV_SEPARATOR)):
+                            ws2.cell(r+1,c+1,val)
 
-        with open("tmp/l_ddr3_ram.csv", encoding='UTF8') as f:
-            reader = csv.reader(f)
-            for r, row in enumerate(reader):
-                for c, col in enumerate(row):
-                    for idx, val in enumerate(col.split(CSV_SEPARATOR)):
-                        ws6.cell(r+1,c+1,val)
-                        ws6.column_dimensions[column].width = 40
-        
-    ws1.column_dimensions[column].width = 40
-    ws2.column_dimensions[column].width = 40
-    ws3.column_dimensions[column].width = 40
-    ws4.column_dimensions[column].width = 40
-    
+            with open("tmp/l_ddr4_ram.csv", encoding='UTF8') as f:
+                reader = csv.reader(f)
+                for r, row in enumerate(reader):
+                    for c, col in enumerate(row):
+                        for idx, val in enumerate(col.split(CSV_SEPARATOR)):
+                            ws3.cell(r+1,c+1,val)
+
+            with open("tmp/r_ddr3_ram.csv", encoding='UTF8') as f:
+                reader = csv.reader(f)
+                for r, row in enumerate(reader):
+                    for c, col in enumerate(row):
+                        for idx, val in enumerate(col.split(CSV_SEPARATOR)):
+                            ws4.cell(r+1,c+1,val)
+
+            with open("tmp/w_ddr3_ram.csv", encoding='UTF8') as f:
+                reader = csv.reader(f)
+                for r, row in enumerate(reader):
+                    for c, col in enumerate(row):
+                        for idx, val in enumerate(col.split(CSV_SEPARATOR)):
+                            ws5.cell(r+1,c+1,val)
+                            ws5.column_dimensions[column].width = 40
+
+            with open("tmp/l_ddr3_ram.csv", encoding='UTF8') as f:
+                reader = csv.reader(f)
+                for r, row in enumerate(reader):
+                    for c, col in enumerate(row):
+                        for idx, val in enumerate(col.split(CSV_SEPARATOR)):
+                            ws6.cell(r+1,c+1,val)
+                            ws6.column_dimensions[column].width = 40
+        ws1.column_dimensions[column].width = 40
+        ws2.column_dimensions[column].width = 40
+        ws3.column_dimensions[column].width = 40
+        ws4.column_dimensions[column].width = 40
+    except:
+        return
     wb.save(savefile)
     
     if _format == 0:
@@ -355,7 +357,7 @@ def crawling_thread(id, type, web, flag_ram=""):
     soup = BeautifulSoup(res.content, 'lxml')
     try:
         data = soup.find("ul",{"class": "chartlist"}).get_text()
-    except:
+    except AttributeError:
         _email.send()
         print("\n죄송합니다. 원본사이트에 접근 할 수 없습니다.\n확인 후 다음 업데이트에 적용하겠습니다.")
         return
@@ -386,18 +388,21 @@ def crawling_thread(id, type, web, flag_ram=""):
         f.write(data)
         f.close()
         make_csv_new_r(_file)
-    print(str(id) + ": Finish")
+    # print(str(id) + ": Finish")
     return
 
 # CPU Crawling
 def extract_cpu():
     print("CPU Data Extract Ready...")
-    th1 = Process(target=crawling_thread, args=(1, "cpu", 'https://www.cpubenchmark.net/high_end_cpus.html'))
-    th2 = Process(target=crawling_thread, args=(2, "cpu", 'https://www.cpubenchmark.net/mid_range_cpus.html'))
-    th3 = Process(target=crawling_thread, args=(3, "cpu", 'https://www.cpubenchmark.net/midlow_range_cpus.html'))
-    th4 = Process(target=crawling_thread, args=(4, "cpu", 'https://www.cpubenchmark.net/low_end_cpus.html'))
-    th1.start(),th2.start(),th3.start(),th4.start()
-    th1.join(),th2.join(),th3.join(),th4.join()
+    try:
+        th1 = Process(target=crawling_thread, args=(1, "cpu", 'https://www.cpubenchmark.net/high_end_cpus.html'))
+        th2 = Process(target=crawling_thread, args=(2, "cpu", 'https://www.cpubenchmark.net/mid_range_cpus.html'))
+        th3 = Process(target=crawling_thread, args=(3, "cpu", 'https://www.cpubenchmark.net/midlow_range_cpus.html'))
+        th4 = Process(target=crawling_thread, args=(4, "cpu", 'https://www.cpubenchmark.net/low_end_cpus.html'))
+        th1.start(),th2.start(),th3.start(),th4.start()
+        th1.join(),th2.join(),th3.join(),th4.join()
+    except:
+        return
     print('CPU Data Extract Complete!!!')
     convert_excel("cpu")
     file_delete("cpu")
@@ -469,7 +474,7 @@ def input_command(args):
             help_print()
             return
         elif i == "--version":
-            print("0.2.2")
+            print("1.1.0")
             return
         elif i == "csv":
             if args[i.find("-f") + 1] == "csv":
@@ -686,6 +691,8 @@ def make_csv_new_r(name):
 
 # 시작 지점
 if __name__ == "__main__":
+    if sys.platform.startswith('win'):
+        multiprocessing.freeze_support()
     if len(sys.argv) == 1:
         if not os.path.exists("tmp"):
             os.mkdir("tmp")
@@ -694,5 +701,9 @@ if __name__ == "__main__":
     else:
         if not os.path.exists("tmp"):
             os.mkdir("tmp")
-        input_command(sys.argv[1:])
+        if platform.system() == "Windows":
+            if len(sys.argv) == 2:
+                extract_all()
+        else:
+            input_command(sys.argv[1:])
         os.rmdir("tmp")
