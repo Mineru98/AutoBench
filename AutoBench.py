@@ -691,8 +691,12 @@ def make_csv_new_r(name):
 
 # 시작 지점
 if __name__ == "__main__":
+    """
+    windows system multi processing support code
+    """
     if sys.platform.startswith('win'):
         multiprocessing.freeze_support()
+
     if len(sys.argv) == 1:
         if not os.path.exists("tmp"):
             os.mkdir("tmp")
