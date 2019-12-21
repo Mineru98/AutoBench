@@ -690,7 +690,7 @@ def input_command(args):
             help_print()
             return
         elif i == "--version":
-            print("0.2.2")
+            print("1.0.1")
             return
         elif i == "csv":
             if args[i.find("-f") + 1] == "csv":
