@@ -1,6 +1,6 @@
 # AutoBenchMark
 
-**Version 1.1.0**<br>
+**Version 1.1.1**<br>
 이 프로그램은 벤치 마크 사이트로부터 최신 CPU, GPU,Drive 와 RAM 성능 점수와 순위를 추출 프로그램입니다.<br>
 csv, xlsx, xls 확장자로 결과를 보여줍니다.<br>
 CPU 정보는 모델 이름, 점수로 작성됩니다.<br>
@@ -18,8 +18,8 @@ RAM information is written by model name and score.<br>
 ## 다운로드(Download)
 |  | ![Windows](https://icongr.am/devicon/windows8-original.svg) Windows | ![Linux](https://icongr.am/devicon/linux-original.svg) Linux |
 |-|-|-|
-| x64 | [![Download AutoBench](https://a.fsdn.com/con/app/sf-download-button)](https://sourceforge.net/projects/autobench/files/v1.1.0/Windows%28x64%29/AutoBench.v1.1.0_win_x64/download) | [![Download AutoBench](https://a.fsdn.com/con/app/sf-download-button)](https://sourceforge.net/projects/autobench/files/v1.1.0/Linux%28x64%29/AutoBench.v1.1.0_linux_x64/download) |
-| x86 | [![Download AutoBench](https://a.fsdn.com/con/app/sf-download-button)](https://sourceforge.net/projects/autobench/files/v1.1.0/Windows%28x32%29/AutoBench.v1.1.0_win_x64/download) | X |
+| x64 | [![Download AutoBench](https://a.fsdn.com/con/app/sf-download-button)](https://sourceforge.net/projects/autobench/files/v1.1.1/Windows%28x64%29/AutoBench.v1.1.1_win_x64/download) | [![Download AutoBench](https://a.fsdn.com/con/app/sf-download-button)](https://sourceforge.net/projects/autobench/files/v1.1.1/Linux%28x64%29/AutoBench.v1.1.1_linux_x64/download) |
+| x86 | [![Download AutoBench](https://a.fsdn.com/con/app/sf-download-button)](https://sourceforge.net/projects/autobench/files/v1.1.1/Windows%28x32%29/AutoBench.v1.1.1_win_x64/download) | X |
 
 
 
@@ -48,7 +48,7 @@ Usage: AutoBench [--help] [--version] <csv|xlsx|xls> <command> [<args>]
 [PyInstaller](https://pyinstaller.readthedocs.io/en/stable/usage.html)
 ```
 pip install pytinstaller
-pyinstaller -D -F -n AutoBench.v1.1.0_ -i icon.ico AutoBench.py
+pyinstaller -D -F -n AutoBench.v1.1.1_ -i icon.ico AutoBench.py
 ```
 
 ## Git Release

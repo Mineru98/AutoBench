@@ -474,7 +474,7 @@ def input_command(args):
             help_print()
             return
         elif i == "--version":
-            print("1.1.0")
+            print("1.1.1")
             return
         elif i == "csv":
             if args[i.find("-f") + 1] == "csv":
@@ -688,7 +688,7 @@ def make_csv_new_r(name):
             f.write(i + ",")
             count+=1
     f.close()
-
+    
 # 시작 지점
 if __name__ == "__main__":
     """
@@ -696,6 +696,7 @@ if __name__ == "__main__":
     """
     if sys.platform.startswith('win'):
         multiprocessing.freeze_support()
+    
 
     if len(sys.argv) == 1:
         if not os.path.exists("tmp"):
