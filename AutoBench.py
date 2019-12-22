@@ -29,6 +29,9 @@ from multiprocessing import Process
 # email sender
 from _email import send as _email
 
+# Generator Obj
+from _Class import Maker
+
 sys.stdout = io.TextIOWrapper(sys.stdout.detach(), encoding = 'utf-8')
 sys.stderr = io.TextIOWrapper(sys.stderr.detach(), encoding = 'utf-8')
 
