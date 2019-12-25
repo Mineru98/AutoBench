@@ -623,7 +623,7 @@ if __name__ == "__main__":
         multiprocessing.freeze_support()
 
     parser = argparse.ArgumentParser(description="AutoBench 사용설명서")
-    parser.add_argument("-v", dest='version', action='store_const', const='1.1.1', help='버전 확인')
+    parser.add_argument("-v", dest='version', action='store_const', const='1.1.2', help='버전 확인')
     parser.add_argument('-f', dest='format', metavar='F', type=str, nargs='+', help='포맷 형식 지정. (단, 하나만 선택 가능)', default='xlsx')
     parser.add_argument('-o', dest='option', metavar='O', type=str, nargs='+', help='추출물 지정', default=['cpu', 'gpu', 'drive', 'ram'])
     
