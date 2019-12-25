@@ -26,11 +26,11 @@ from bs4 import BeautifulSoup
 import multiprocessing
 from multiprocessing import Process
 
+# argparse
+import argparse
+
 # email sender
 from _email import send as _email
-
-# Generator Obj
-from _Class import Maker
 
 sys.stdout = io.TextIOWrapper(sys.stdout.detach(), encoding = 'utf-8')
 sys.stderr = io.TextIOWrapper(sys.stderr.detach(), encoding = 'utf-8')
@@ -40,20 +40,15 @@ _format = 1
 # _format 1 : .xlsx
 # _format 2 : .xls
 
+c_type = False
+g_type = False
+d_type = False
+r_type = False
+
 c_rank = 1
 g_rank = 1
 d_rank = 1
 r_rank = 1
-
-# 사용법 출력 함수
-def help_print():
-    print("\nUsage: AutoBench [--help] [--version] <csv|xlsx|xls> <command> [<args>]")
-    print("         <csv|xlsx|xls>\tExport to csv, xlsx or xls files.(default .csv)")
-    print("         blank(cpu&gpu)\tExtract CPU,GPU,Drive and RAM Data")
-    print("         cpu\t\t\tExtract Only CPU Data")
-    print("         gpu\t\t\tExtract Only GPU Data")
-    print("         drive\t\t\tExtract Only Drive Data")
-    print("         ram\t\t\tExtract Only RAM Data")
 
 # 임시 파일 제거 함수
 def file_delete(find):
@@ -455,79 +450,6 @@ def extract_ram():
     file_delete("ram")
     dayfilename("ram")
 
-def extract_all():
-    th_cpu = Process(target=extract_cpu)
-    th_gpu = Process(target=extract_gpu)
-    th_drive = Process(target=extract_drive)
-    th_ram = Process(target=extract_ram)
-    th_cpu.start(),th_gpu.start(),th_drive.start(),th_ram.start()
-    th_cpu.join(),th_gpu.join(),th_drive.join(),th_ram.join()
-    print("all Finish")
-
-# 인자 처리기
-def input_command(args):
-    global _format
-    
-    if len(args) > 2:
-        help_print()
-        return
-    
-    for i in args:
-        if i == "--help":
-            help_print()
-            return
-        elif i == "--version":
-            print("1.1.1")
-            return
-        elif i == "csv":
-            if args[i.find("-f") + 1] == "csv":
-                _format = 0
-        elif i == "xlsx":
-            if args[i.find("-f") + 1] == "xlsx":
-                _format = 1
-        elif i == "xls":
-            if args[i.find("-f") + 1] == "xls":
-                _format = 2
-
-        if i == "cpu":
-            extract_cpu()
-            return
-        elif i == "gpu":
-            extract_gpu()
-            return
-        elif i == "drive":
-            extract_drive()
-            return
-        elif i == "ram":
-            extract_ram()
-            return
-        
-        if len(args) == 1:
-            if args[0] == "csv":
-                _format = 0
-                th_cpu = Process(target=extract_cpu)
-                th_gpu = Process(target=extract_gpu)
-                th_drive = Process(target=extract_drive)
-                th_ram = Process(target=extract_ram)
-                th_cpu.start(),th_gpu.start(),th_drive.start(),th_ram.start()
-                th_cpu.join(),th_gpu.join(),th_drive.join(),th_ram.join()
-            elif args[0] == "xlsx":
-                _format = 1
-                th_cpu = Process(target=extract_cpu)
-                th_gpu = Process(target=extract_gpu)
-                th_drive = Process(target=extract_drive)
-                th_ram = Process(target=extract_ram)
-                th_cpu.start(),th_gpu.start(),th_drive.start(),th_ram.start()
-                th_cpu.join(),th_gpu.join(),th_drive.join(),th_ram.join()
-            elif args[0] == "xls":
-                _format = 2
-                th_cpu = Process(target=extract_cpu)
-                th_gpu = Process(target=extract_gpu)
-                th_drive = Process(target=extract_drive)
-                th_ram = Process(target=extract_ram)
-                th_cpu.start(),th_gpu.start(),th_drive.start(),th_ram.start()
-                th_cpu.join(),th_gpu.join(),th_drive.join(),th_ram.join()
-
 # Make CPU Data
 def make_csv_new(name):
     str = []
@@ -691,7 +613,7 @@ def make_csv_new_r(name):
             f.write(i + ",")
             count+=1
     f.close()
-    
+
 # 시작 지점
 if __name__ == "__main__":
     """
@@ -699,19 +621,69 @@ if __name__ == "__main__":
     """
     if sys.platform.startswith('win'):
         multiprocessing.freeze_support()
-    
 
-    if len(sys.argv) == 1:
-        if not os.path.exists("tmp"):
-            os.mkdir("tmp")
-        extract_all()
-        os.rmdir("tmp")
+    parser = argparse.ArgumentParser(description="AutoBench 사용설명서")
+    parser.add_argument("-v", dest='version', action='store_const', const='1.1.1', help='버전 확인')
+    parser.add_argument('-f', dest='format', metavar='F', type=str, nargs='+', help='포맷 형식 지정. (단, 하나만 선택 가능)', default='xlsx')
+    parser.add_argument('-o', dest='option', metavar='O', type=str, nargs='+', help='추출물 지정', default=['cpu', 'gpu', 'drive', 'ram'])
+    
+    args = parser.parse_args()
+
+    if args.version != None:
+        print(args.version)
+        sys.exit()
+
+    if 'cpu' in args.option:
+        c_type = True
+    if 'gpu' in args.option:
+        g_type = True
+    if 'drive' in args.option:
+        d_type = True
+    if 'ram' in args.option:
+        r_type = True
+    
+    if len(args.format) != 1 and type(args.format) != type(""):
+        parser.print_help()
+        sys.exit()
+
+    if 'csv' in args.format:
+        _format = 0
+    elif 'xlsx' in args.format:
+        _format = 1
+    elif 'xls' in args.format:
+        _format = 2
     else:
-        if not os.path.exists("tmp"):
-            os.mkdir("tmp")
-        if platform.system() == "Windows":
-            if len(sys.argv) == 2:
-                extract_all()
-        else:
-            input_command(sys.argv[1:])
-        os.rmdir("tmp")
+        print("error")
+
+    th_cpu = None
+    th_gpu = None
+    th_drive = None
+    th_ram = None
+
+    if not os.path.exists("tmp"):
+        os.mkdir("tmp")
+
+    if c_type:
+        th_cpu = Process(target=extract_cpu)
+    if g_type:
+        th_gpu = Process(target=extract_gpu)
+    if d_type:
+        th_drive = Process(target=extract_drive)
+    if r_type:
+        th_ram = Process(target=extract_ram)
+
+    if th_cpu != None:
+        th_cpu.start()
+    if th_gpu != None:
+        th_gpu.start()
+    if th_drive != None:
+        th_drive.start()
+    if th_ram != None:
+        th_ram.start()
+    try:
+        th_cpu.join(),th_gpu.join(),th_drive.join(),th_ram.join()
+    except:
+        pass
+    print("all Finish")
+    os.rmdir("tmp")
+    

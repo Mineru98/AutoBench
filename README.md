@@ -25,23 +25,35 @@ RAM information is written by model name and score.<br>
 
 ## 사용법(Usage)
 ```
-사용법: AutoBench [--help] [--version] <csv|xlsx|xls> <command> [<args>]
-         <csv|xlsx|xls>         csv,xlsx 또는 xls 확장자로 내보냅니다.(기본은 .csv)
-         공백(cpu&gpu)           CPU, GPU, Drive와 RAM 모두 다 추출합니다.
-         cpu                    CPU 데이터만 추출합니다.
-         gpu                    GPU 데이터만 추출합니다.
-         drive                  Drive 데이터만 추출합니다.
-         ram                    RAM 데이터만 추출합니다.
+usage: AutoBench [-h] [-v] [-f F [F ...]] [-o O [O ...]]
+
+AutoBench 사용설명서
+
+optional arguments:
+  -h, --help    show this help message and exit
+  -v            버전 확인
+  -f F [F ...]  포맷 형식 지정. (단, 하나만 선택 가능. 기본 xlsx)
+  -o O [O ...]  추출물 지정(기본 전부)
 ```
 
 ```
-Usage: AutoBench [--help] [--version] <csv|xlsx|xls> <command> [<args>]
-         <csv|xlsx|xls>         Export to csv, xlsx or xls files.(default .csv)
-         blank(cpu&gpu)         Extract CPU, GPU, Drive and RAM Data
-         cpu                    Extract Only CPU Data
-         gpu                    Extract Only GPU Data
-         drive                  Extract Only Drive Data
-         ram                    Extract Only RAM Data
+usage: AutoBench [-h] [-v] [-f F [F ...]] [-o O [O ...]]
+
+AutoBench Usage
+
+optional arguments:
+  -h, --help    show this help message and exit
+  -v            check version
+  -f F [F ...]  select file format. (only one. default xlsx)
+  -o O [O ...]  select export(default all of)
+```
+
+## 사용 예시(for example)
+```
+1) AutoBench.exe
+2) AutoBench.exe -f csv
+3) AutoBench.exe -f xls -o cpu
+4) AutoBench.exe -o drive cpu ram
 ```
 
 ## 빌드 방법(How To Build)
