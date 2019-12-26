@@ -63,11 +63,13 @@ pip install pytinstaller
 pyinstaller -D -F -n AutoBench.v1.1.1_ -i icon.ico AutoBench.py
 ```
 
-## Git Release
-```
-git tag -a vz.x.y -m ""
-git push origin vz.x.y
-```
+## 개발 환경(Development Environment)
+ - Python 3.7.6
+ - PyInstaller 3.5
+ - openpyxl 2.6.4
+ - lxml 4.4.2
+ - requests 2.22.0
+ - beautifulsoup4 4.8.2
 
 # 원본 사이트(Source Site)
 
