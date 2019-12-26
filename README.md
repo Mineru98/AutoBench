@@ -72,4 +72,6 @@ git push origin vz.x.y
 # 원본 사이트(Source Site)
 
 [CPU Benchmark Site](https://www.cpubenchmark.net/)<br>
-[GPU Benchmark Site](https://www.videocardbenchmark.net/)
+[GPU Benchmark Site](https://www.videocardbenchmark.net/)<br>
+[Drive Benchmark Site](https://www.harddrivebenchmark.net/)<br>
+[RAM Benchmark Site](https://www.memorybenchmark.net/)
