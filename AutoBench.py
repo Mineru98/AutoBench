@@ -409,12 +409,15 @@ def extract_cpu():
 # GPU Crawling
 def extract_gpu():
     print("GPU Data Extract Ready...")
-    th1 = Process(target=crawling_thread, args=(1, "gpu", 'https://www.videocardbenchmark.net/high_end_gpus.html'))
-    th2 = Process(target=crawling_thread, args=(2, "gpu", 'https://www.videocardbenchmark.net/mid_range_gpus.html'))
-    th3 = Process(target=crawling_thread, args=(3, "gpu", 'https://www.videocardbenchmark.net/midlow_range_gpus.html'))
-    th4 = Process(target=crawling_thread, args=(4, "gpu", 'https://www.videocardbenchmark.net/low_end_gpus.html'))
-    th1.start(),th2.start(),th3.start(),th4.start()
-    th1.join(),th2.join(),th3.join(),th4.join()
+    try:
+        th1 = Process(target=crawling_thread, args=(1, "gpu", 'https://www.videocardbenchmark.net/high_end_gpus.html'))
+        th2 = Process(target=crawling_thread, args=(2, "gpu", 'https://www.videocardbenchmark.net/mid_range_gpus.html'))
+        th3 = Process(target=crawling_thread, args=(3, "gpu", 'https://www.videocardbenchmark.net/midlow_range_gpus.html'))
+        th4 = Process(target=crawling_thread, args=(4, "gpu", 'https://www.videocardbenchmark.net/low_end_gpus.html'))
+        th1.start(),th2.start(),th3.start(),th4.start()
+        th1.join(),th2.join(),th3.join(),th4.join()
+    except:
+        pass
     print('GPU Data Extract Complete!!!')
     convert_excel("gpu")
     file_delete("gpu")
@@ -423,12 +426,15 @@ def extract_gpu():
 # Drive Crawling
 def extract_drive():
     print("Drive Data Extract Ready...")
-    th1 = Process(target=crawling_thread, args=(1, "drive", 'https://www.harddrivebenchmark.net/high_end_drives.html'))
-    th2 = Process(target=crawling_thread, args=(2, "drive", 'https://www.harddrivebenchmark.net/mid_range_drives.html'))
-    th3 = Process(target=crawling_thread, args=(3, "drive", 'https://www.harddrivebenchmark.net/low_mid_range_drives.html'))
-    th4 = Process(target=crawling_thread, args=(4, "drive", 'https://www.harddrivebenchmark.net/low_end_drives.html'))
-    th1.start(),th2.start(),th3.start(),th4.start()
-    th1.join(),th2.join(),th3.join(),th4.join()
+    try:
+        th1 = Process(target=crawling_thread, args=(1, "drive", 'https://www.harddrivebenchmark.net/high_end_drives.html'))
+        th2 = Process(target=crawling_thread, args=(2, "drive", 'https://www.harddrivebenchmark.net/mid_range_drives.html'))
+        th3 = Process(target=crawling_thread, args=(3, "drive", 'https://www.harddrivebenchmark.net/low_mid_range_drives.html'))
+        th4 = Process(target=crawling_thread, args=(4, "drive", 'https://www.harddrivebenchmark.net/low_end_drives.html'))
+        th1.start(),th2.start(),th3.start(),th4.start()
+        th1.join(),th2.join(),th3.join(),th4.join()
+    except:
+        pass
     print('Drive Data Extract Complete!!!')
     convert_excel("drive")
     file_delete("drive")
@@ -437,14 +443,17 @@ def extract_drive():
 # RAM Crawling
 def extract_ram():
     print("RAM Data Extract Ready...")
-    th1 = Process(target=crawling_thread, args=(1, "ram", 'https://www.memorybenchmark.net/read_uncached_ddr4_intel.html', "r"))
-    th2 = Process(target=crawling_thread, args=(2, "ram", 'https://www.memorybenchmark.net/write_ddr4_intel.html', "w"))
-    th3 = Process(target=crawling_thread, args=(3, "ram", 'https://www.memorybenchmark.net/latency_ddr4_intel.html', "l"))
-    th4 = Process(target=crawling_thread, args=(4, "ram", 'https://www.memorybenchmark.net/read_uncached_ddr3_intel.html', "r"))
-    th5 = Process(target=crawling_thread, args=(5, "ram", 'https://www.memorybenchmark.net/write_ddr3_intel.html', "w"))
-    th6 = Process(target=crawling_thread, args=(6, "ram", 'https://www.memorybenchmark.net/latency_ddr3_intel.html', "l"))
-    th1.start(),th2.start(),th3.start(),th4.start(),th5.start(),th6.start()
-    th1.join(),th2.join(),th3.join(),th4.join(),th5.join(),th6.join()
+    try:
+        th1 = Process(target=crawling_thread, args=(1, "ram", 'https://www.memorybenchmark.net/read_uncached_ddr4_intel.html', "r"))
+        th2 = Process(target=crawling_thread, args=(2, "ram", 'https://www.memorybenchmark.net/write_ddr4_intel.html', "w"))
+        th3 = Process(target=crawling_thread, args=(3, "ram", 'https://www.memorybenchmark.net/latency_ddr4_intel.html', "l"))
+        th4 = Process(target=crawling_thread, args=(4, "ram", 'https://www.memorybenchmark.net/read_uncached_ddr3_intel.html', "r"))
+        th5 = Process(target=crawling_thread, args=(5, "ram", 'https://www.memorybenchmark.net/write_ddr3_intel.html', "w"))
+        th6 = Process(target=crawling_thread, args=(6, "ram", 'https://www.memorybenchmark.net/latency_ddr3_intel.html', "l"))
+        th1.start(),th2.start(),th3.start(),th4.start(),th5.start(),th6.start()
+        th1.join(),th2.join(),th3.join(),th4.join(),th5.join(),th6.join()
+    except:
+        pass
     print('RAM Data Extract Complete!!!')
     convert_excel("ram")
     file_delete("ram")
@@ -672,18 +681,52 @@ if __name__ == "__main__":
     if r_type:
         th_ram = Process(target=extract_ram)
 
-    if th_cpu != None:
-        th_cpu.start()
-    if th_gpu != None:
-        th_gpu.start()
-    if th_drive != None:
-        th_drive.start()
-    if th_ram != None:
-        th_ram.start()
-    try:
+    if th_cpu != None and th_gpu != None and th_drive != None and th_ram != None:
+        th_cpu.start(), th_gpu.start(), th_drive.start(), th_ram.start()
         th_cpu.join(),th_gpu.join(),th_drive.join(),th_ram.join()
-    except:
-        pass
+    elif th_cpu == None and th_gpu != None and th_drive != None and th_ram != None:
+        th_gpu.start(), th_drive.start(), th_ram.start()
+        th_gpu.join(),th_drive.join(),th_ram.join()
+    elif th_cpu != None and th_gpu == None and th_drive != None and th_ram != None:
+        th_cpu.start(), th_drive.start(), th_ram.start()
+        th_cpu.join(), th_drive.join(),th_ram.join()
+    elif th_cpu != None and th_gpu != None and th_drive == None and th_ram != None:
+        th_cpu.start(), th_gpu.start(), th_ram.start()
+        th_cpu.join(),th_gpu.join(), th_ram.join()
+    elif th_cpu != None and th_gpu != None and th_drive != None and th_ram == None:
+        th_cpu.start(), th_gpu.start(), th_drive.start()
+        th_cpu.join(),th_gpu.join(),th_drive.join()
+    elif th_cpu == None and th_gpu == None and th_drive != None and th_ram != None:
+        th_drive.start(), th_ram.start()
+        th_drive.join(),th_ram.join()
+    elif th_cpu == None and th_gpu != None and th_drive == None and th_ram != None:
+        th_gpu.start(), th_ram.start()
+        th_gpu.join(), th_ram.join()
+    elif th_cpu == None and th_gpu != None and th_drive != None and th_ram == None:
+        th_gpu.start(), th_drive.start()
+        th_gpu.join(),th_drive.join()
+    elif th_cpu != None and th_gpu == None and th_drive == None and th_ram != None:
+        th_cpu.start(), th_ram.start()
+        th_cpu.join(), th_ram.join()
+    elif th_cpu != None and th_gpu == None and th_drive != None and th_ram == None:
+        th_cpu.start(), th_drive.start()
+        th_cpu.join(),th_drive.join()
+    elif th_cpu != None and th_gpu != None and th_drive == None and th_ram == None:
+        th_cpu.start(), th_gpu.start()
+        th_cpu.join(),th_gpu.join()
+    elif th_cpu != None and th_gpu == None and th_drive == None and th_ram == None:
+        th_cpu.start()
+        th_cpu.join()
+    elif th_cpu == None and th_gpu != None and th_drive == None and th_ram == None:
+        th_gpu.start()
+        th_gpu.join()
+    elif th_cpu == None and th_gpu == None and th_drive != None and th_ram == None:
+        th_drive.start()
+        th_drive.join()
+    elif th_cpu == None and th_gpu == None and th_drive == None and th_ram != None:
+        th_ram.start()
+        th_ram.join()
+    
     print("all Finish")
     os.rmdir("tmp")
     
