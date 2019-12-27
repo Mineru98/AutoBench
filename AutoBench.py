@@ -464,7 +464,7 @@ def make_csv_new(name):
     
     f = open("tmp/"+name+".csv", 'r', encoding='UTF8')
     lines = f.readlines()
-    for line in lines[5:-2]:
+    for line in lines[1:]:
         str.append(line)
     f.close()
 
