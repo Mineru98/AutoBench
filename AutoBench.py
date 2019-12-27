@@ -347,41 +347,42 @@ def convert_excel(find):
     if _format == 0:
         convert_extention(find)
         
-def crawling_thread(id, type, web, flag_ram=""):
+def crawling_thread(id, _type, web, flag_ram=""):
     """
     크롤링 쓰레드
     """
     res = requests.get(web)
     soup = BeautifulSoup(res.content, 'lxml')
     try:
-        data = soup.find("ul",{"class": "chartlist"}).get_text()
+        data = soup.find("ul",{"class": "chartlist"}).get_text().split("*")
     except AttributeError:
         _email.send()
         print("\n죄송합니다. 원본사이트에 접근 할 수 없습니다.\n확인 후 다음 업데이트에 적용하겠습니다.")
         return
-    if type == "cpu":
-        _file = str(id)+"_"+type 
+    if _type == "cpu":
+        _file = str(id)+"_"+_type
         f = open("tmp/"+_file+".csv", 'w+', encoding='UTF8')
-        f.write(data)
+        for i in data:
+            f.write(i)
         f.close()
         make_csv_new(_file)
-    elif type == "gpu":
-        _file = str(id)+"_"+type 
+    elif _type == "gpu":
+        _file = str(id)+"_"+_type 
         f = open("tmp/"+_file+".csv", 'w+', encoding='UTF8')
         f.write(data)
         f.close()
         make_csv_new_g(_file)
-    elif type == "drive":
-        _file = str(id)+"_"+type 
+    elif _type == "drive":
+        _file = str(id)+"_"+_type 
         f = open("tmp/"+_file+".csv", 'w+', encoding='UTF8')
         f.write(data)
         f.close()
         make_csv_new_d(_file)
-    elif type == "ram":
+    elif _type == "ram":
         if id < 4:
-            _file = flag_ram+"_ddr4_"+type
+            _file = flag_ram+"_ddr4_"+_type
         else:
-            _file = flag_ram+"_ddr3_"+type
+            _file = flag_ram+"_ddr3_"+_type
         f = open("tmp/"+_file+".csv", 'w+', encoding='UTF8')
         f.write(data)
         f.close()
@@ -465,10 +466,10 @@ def make_csv_new(name):
     tmp = []
     test = ""
     global c_rank
-    
+
     f = open("tmp/"+name+".csv", 'r', encoding='UTF8')
     lines = f.readlines()
-    for line in lines[5:-2]:
+    for line in lines[1:]:
         str.append(line)
     f.close()
 
@@ -673,59 +674,61 @@ if __name__ == "__main__":
         os.mkdir("tmp")
 
     if c_type:
-        th_cpu = Process(target=extract_cpu)
-    if g_type:
-        th_gpu = Process(target=extract_gpu)
-    if d_type:
-        th_drive = Process(target=extract_drive)
-    if r_type:
-        th_ram = Process(target=extract_ram)
+        extract_cpu()
+    # if c_type:
+    #     th_cpu = Process(target=extract_cpu)
+    # if g_type:
+    #     th_gpu = Process(target=extract_gpu)
+    # if d_type:
+    #     th_drive = Process(target=extract_drive)
+    # if r_type:
+    #     th_ram = Process(target=extract_ram)
 
-    if th_cpu != None and th_gpu != None and th_drive != None and th_ram != None:
-        th_cpu.start(), th_gpu.start(), th_drive.start(), th_ram.start()
-        th_cpu.join(),th_gpu.join(),th_drive.join(),th_ram.join()
-    elif th_cpu == None and th_gpu != None and th_drive != None and th_ram != None:
-        th_gpu.start(), th_drive.start(), th_ram.start()
-        th_gpu.join(),th_drive.join(),th_ram.join()
-    elif th_cpu != None and th_gpu == None and th_drive != None and th_ram != None:
-        th_cpu.start(), th_drive.start(), th_ram.start()
-        th_cpu.join(), th_drive.join(),th_ram.join()
-    elif th_cpu != None and th_gpu != None and th_drive == None and th_ram != None:
-        th_cpu.start(), th_gpu.start(), th_ram.start()
-        th_cpu.join(),th_gpu.join(), th_ram.join()
-    elif th_cpu != None and th_gpu != None and th_drive != None and th_ram == None:
-        th_cpu.start(), th_gpu.start(), th_drive.start()
-        th_cpu.join(),th_gpu.join(),th_drive.join()
-    elif th_cpu == None and th_gpu == None and th_drive != None and th_ram != None:
-        th_drive.start(), th_ram.start()
-        th_drive.join(),th_ram.join()
-    elif th_cpu == None and th_gpu != None and th_drive == None and th_ram != None:
-        th_gpu.start(), th_ram.start()
-        th_gpu.join(), th_ram.join()
-    elif th_cpu == None and th_gpu != None and th_drive != None and th_ram == None:
-        th_gpu.start(), th_drive.start()
-        th_gpu.join(),th_drive.join()
-    elif th_cpu != None and th_gpu == None and th_drive == None and th_ram != None:
-        th_cpu.start(), th_ram.start()
-        th_cpu.join(), th_ram.join()
-    elif th_cpu != None and th_gpu == None and th_drive != None and th_ram == None:
-        th_cpu.start(), th_drive.start()
-        th_cpu.join(),th_drive.join()
-    elif th_cpu != None and th_gpu != None and th_drive == None and th_ram == None:
-        th_cpu.start(), th_gpu.start()
-        th_cpu.join(),th_gpu.join()
-    elif th_cpu != None and th_gpu == None and th_drive == None and th_ram == None:
-        th_cpu.start()
-        th_cpu.join()
-    elif th_cpu == None and th_gpu != None and th_drive == None and th_ram == None:
-        th_gpu.start()
-        th_gpu.join()
-    elif th_cpu == None and th_gpu == None and th_drive != None and th_ram == None:
-        th_drive.start()
-        th_drive.join()
-    elif th_cpu == None and th_gpu == None and th_drive == None and th_ram != None:
-        th_ram.start()
-        th_ram.join()
+    # if th_cpu != None and th_gpu != None and th_drive != None and th_ram != None:
+    #     th_cpu.start(), th_gpu.start(), th_drive.start(), th_ram.start()
+    #     th_cpu.join(),th_gpu.join(),th_drive.join(),th_ram.join()
+    # elif th_cpu == None and th_gpu != None and th_drive != None and th_ram != None:
+    #     th_gpu.start(), th_drive.start(), th_ram.start()
+    #     th_gpu.join(),th_drive.join(),th_ram.join()
+    # elif th_cpu != None and th_gpu == None and th_drive != None and th_ram != None:
+    #     th_cpu.start(), th_drive.start(), th_ram.start()
+    #     th_cpu.join(), th_drive.join(),th_ram.join()
+    # elif th_cpu != None and th_gpu != None and th_drive == None and th_ram != None:
+    #     th_cpu.start(), th_gpu.start(), th_ram.start()
+    #     th_cpu.join(),th_gpu.join(), th_ram.join()
+    # elif th_cpu != None and th_gpu != None and th_drive != None and th_ram == None:
+    #     th_cpu.start(), th_gpu.start(), th_drive.start()
+    #     th_cpu.join(),th_gpu.join(),th_drive.join()
+    # elif th_cpu == None and th_gpu == None and th_drive != None and th_ram != None:
+    #     th_drive.start(), th_ram.start()
+    #     th_drive.join(),th_ram.join()
+    # elif th_cpu == None and th_gpu != None and th_drive == None and th_ram != None:
+    #     th_gpu.start(), th_ram.start()
+    #     th_gpu.join(), th_ram.join()
+    # elif th_cpu == None and th_gpu != None and th_drive != None and th_ram == None:
+    #     th_gpu.start(), th_drive.start()
+    #     th_gpu.join(),th_drive.join()
+    # elif th_cpu != None and th_gpu == None and th_drive == None and th_ram != None:
+    #     th_cpu.start(), th_ram.start()
+    #     th_cpu.join(), th_ram.join()
+    # elif th_cpu != None and th_gpu == None and th_drive != None and th_ram == None:
+    #     th_cpu.start(), th_drive.start()
+    #     th_cpu.join(),th_drive.join()
+    # elif th_cpu != None and th_gpu != None and th_drive == None and th_ram == None:
+    #     th_cpu.start(), th_gpu.start()
+    #     th_cpu.join(),th_gpu.join()
+    # elif th_cpu != None and th_gpu == None and th_drive == None and th_ram == None:
+    #     th_cpu.start()
+    #     th_cpu.join()
+    # elif th_cpu == None and th_gpu != None and th_drive == None and th_ram == None:
+    #     th_gpu.start()
+    #     th_gpu.join()
+    # elif th_cpu == None and th_gpu == None and th_drive != None and th_ram == None:
+    #     th_drive.start()
+    #     th_drive.join()
+    # elif th_cpu == None and th_gpu == None and th_drive == None and th_ram != None:
+    #     th_ram.start()
+    #     th_ram.join()
     
     print("all Finish")
     os.rmdir("tmp")
