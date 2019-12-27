@@ -60,7 +60,7 @@ optional arguments:
 [PyInstaller](https://pyinstaller.readthedocs.io/en/stable/usage.html)
 ```
 pip install pytinstaller
-pyinstaller -D -F -n AutoBench.v1.1.1_ -i icon.ico AutoBench.py
+pyinstaller -D -F -n AutoBench.v1.1.2_ -i icon.ico AutoBench.py
 ```
 
 ## 개발 환경(Development Environment)
