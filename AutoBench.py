@@ -392,7 +392,6 @@ def crawling_thread(id, _type, web, flag_ram=""):
 
 # CPU Crawling
 def extract_cpu():
-    print("CPU Data Extract Ready...")
     try:
         th1 = Process(target=crawling_thread, args=(1, "cpu", 'https://www.cpubenchmark.net/high_end_cpus.html'))
         th2 = Process(target=crawling_thread, args=(2, "cpu", 'https://www.cpubenchmark.net/mid_range_cpus.html'))
@@ -409,7 +408,6 @@ def extract_cpu():
 
 # GPU Crawling
 def extract_gpu():
-    print("GPU Data Extract Ready...")
     try:
         th1 = Process(target=crawling_thread, args=(1, "gpu", 'https://www.videocardbenchmark.net/high_end_gpus.html'))
         th2 = Process(target=crawling_thread, args=(2, "gpu", 'https://www.videocardbenchmark.net/mid_range_gpus.html'))
@@ -418,7 +416,7 @@ def extract_gpu():
         th1.start(),th2.start(),th3.start(),th4.start()
         th1.join(),th2.join(),th3.join(),th4.join()
     except:
-        pass
+        return
     print('GPU Data Extract Complete!!!')
     convert_excel("gpu")
     file_delete("gpu")
@@ -426,7 +424,6 @@ def extract_gpu():
     
 # Drive Crawling
 def extract_drive():
-    print("Drive Data Extract Ready...")
     try:
         th1 = Process(target=crawling_thread, args=(1, "drive", 'https://www.harddrivebenchmark.net/high_end_drives.html'))
         th2 = Process(target=crawling_thread, args=(2, "drive", 'https://www.harddrivebenchmark.net/mid_range_drives.html'))
@@ -435,7 +432,7 @@ def extract_drive():
         th1.start(),th2.start(),th3.start(),th4.start()
         th1.join(),th2.join(),th3.join(),th4.join()
     except:
-        pass
+        return
     print('Drive Data Extract Complete!!!')
     convert_excel("drive")
     file_delete("drive")
@@ -443,7 +440,6 @@ def extract_drive():
 
 # RAM Crawling
 def extract_ram():
-    print("RAM Data Extract Ready...")
     try:
         th1 = Process(target=crawling_thread, args=(1, "ram", 'https://www.memorybenchmark.net/read_uncached_ddr4_intel.html', "r"))
         th2 = Process(target=crawling_thread, args=(2, "ram", 'https://www.memorybenchmark.net/write_ddr4_intel.html', "w"))
@@ -454,7 +450,7 @@ def extract_ram():
         th1.start(),th2.start(),th3.start(),th4.start(),th5.start(),th6.start()
         th1.join(),th2.join(),th3.join(),th4.join(),th5.join(),th6.join()
     except:
-        pass
+        return
     print('RAM Data Extract Complete!!!')
     convert_excel("ram")
     file_delete("ram")
@@ -633,7 +629,7 @@ if __name__ == "__main__":
         multiprocessing.freeze_support()
 
     parser = argparse.ArgumentParser(description="AutoBench 사용설명서")
-    parser.add_argument("-v", dest='version', action='store_const', const='1.1.1', help='버전 확인')
+    parser.add_argument("-v", dest='version', action='store_const', const='1.1.2', help='버전 확인')
     parser.add_argument('-f', dest='format', metavar='F', type=str, nargs='+', help='포맷 형식 지정. (단, 하나만 선택 가능)', default='xlsx')
     parser.add_argument('-o', dest='option', metavar='O', type=str, nargs='+', help='추출물 지정', default=['cpu', 'gpu', 'drive', 'ram'])
     
@@ -656,6 +652,9 @@ if __name__ == "__main__":
         parser.print_help()
         sys.exit()
 
+    if not os.path.exists("tmp"):
+        os.mkdir("tmp")
+
     if 'csv' in args.format:
         _format = 0
     elif 'xlsx' in args.format:
@@ -670,11 +669,60 @@ if __name__ == "__main__":
     th_drive = None
     th_ram = None
 
-    if not os.path.exists("tmp"):
-        os.mkdir("tmp")
-
     if c_type:
-        extract_cpu()
+        th_cpu = Process(target=extract_cpu)
+    if g_type:
+        th_gpu = Process(target=extract_gpu)
+    if d_type:
+        th_drive = Process(target=extract_drive)
+    if r_type:
+        th_ram = Process(target=extract_ram)
+
+    if th_cpu != None and th_gpu != None and th_drive != None and th_ram != None:
+        th_cpu.start(), th_gpu.start(), th_drive.start(), th_ram.start()
+        th_cpu.join(),th_gpu.join(),th_drive.join(),th_ram.join()
+    elif th_cpu == None and th_gpu != None and th_drive != None and th_ram != None:
+        th_gpu.start(), th_drive.start(), th_ram.start()
+        th_gpu.join(),th_drive.join(),th_ram.join()
+    elif th_cpu != None and th_gpu == None and th_drive != None and th_ram != None:
+        th_cpu.start(), th_drive.start(), th_ram.start()
+        th_cpu.join(), th_drive.join(),th_ram.join()
+    elif th_cpu != None and th_gpu != None and th_drive == None and th_ram != None:
+        th_cpu.start(), th_gpu.start(), th_ram.start()
+        th_cpu.join(),th_gpu.join(), th_ram.join()
+    elif th_cpu != None and th_gpu != None and th_drive != None and th_ram == None:
+        th_cpu.start(), th_gpu.start(), th_drive.start()
+        th_cpu.join(),th_gpu.join(),th_drive.join()
+    elif th_cpu == None and th_gpu == None and th_drive != None and th_ram != None:
+        th_drive.start(), th_ram.start()
+        th_drive.join(),th_ram.join()
+    elif th_cpu == None and th_gpu != None and th_drive == None and th_ram != None:
+        th_gpu.start(), th_ram.start()
+        th_gpu.join(), th_ram.join()
+    elif th_cpu == None and th_gpu != None and th_drive != None and th_ram == None:
+        th_gpu.start(), th_drive.start()
+        th_gpu.join(),th_drive.join()
+    elif th_cpu != None and th_gpu == None and th_drive == None and th_ram != None:
+        th_cpu.start(), th_ram.start()
+        th_cpu.join(), th_ram.join()
+    elif th_cpu != None and th_gpu == None and th_drive != None and th_ram == None:
+        th_cpu.start(), th_drive.start()
+        th_cpu.join(),th_drive.join()
+    elif th_cpu != None and th_gpu != None and th_drive == None and th_ram == None:
+        th_cpu.start(), th_gpu.start()
+        th_cpu.join(),th_gpu.join()
+    elif th_cpu != None and th_gpu == None and th_drive == None and th_ram == None:
+        th_cpu.start()
+        th_cpu.join()
+    elif th_cpu == None and th_gpu != None and th_drive == None and th_ram == None:
+        th_gpu.start()
+        th_gpu.join()
+    elif th_cpu == None and th_gpu == None and th_drive != None and th_ram == None:
+        th_drive.start()
+        th_drive.join()
+    elif th_cpu == None and th_gpu == None and th_drive == None and th_ram != None:
+        th_ram.start()
+        th_ram.join()
     
     print("all Finish")
     os.rmdir("tmp")
