@@ -369,13 +369,15 @@ def crawling_thread(id, _type, web, flag_ram=""):
     elif _type == "gpu":
         _file = str(id)+"_"+_type 
         f = open("tmp/"+_file+".csv", 'w+', encoding='UTF8')
-        f.write(data)
+        for i in data:
+            f.write(i)
         f.close()
         make_csv_new_g(_file)
     elif _type == "drive":
         _file = str(id)+"_"+_type 
         f = open("tmp/"+_file+".csv", 'w+', encoding='UTF8')
-        f.write(data)
+        for i in data:
+            f.write(i)
         f.close()
         make_csv_new_d(_file)
     elif _type == "ram":
@@ -384,7 +386,8 @@ def crawling_thread(id, _type, web, flag_ram=""):
         else:
             _file = flag_ram+"_ddr3_"+_type
         f = open("tmp/"+_file+".csv", 'w+', encoding='UTF8')
-        f.write(data)
+        for i in data:
+            f.write(i)
         f.close()
         make_csv_new_r(_file)
     # print(str(id) + ": Finish")
