@@ -675,60 +675,6 @@ if __name__ == "__main__":
 
     if c_type:
         extract_cpu()
-    # if c_type:
-    #     th_cpu = Process(target=extract_cpu)
-    # if g_type:
-    #     th_gpu = Process(target=extract_gpu)
-    # if d_type:
-    #     th_drive = Process(target=extract_drive)
-    # if r_type:
-    #     th_ram = Process(target=extract_ram)
-
-    # if th_cpu != None and th_gpu != None and th_drive != None and th_ram != None:
-    #     th_cpu.start(), th_gpu.start(), th_drive.start(), th_ram.start()
-    #     th_cpu.join(),th_gpu.join(),th_drive.join(),th_ram.join()
-    # elif th_cpu == None and th_gpu != None and th_drive != None and th_ram != None:
-    #     th_gpu.start(), th_drive.start(), th_ram.start()
-    #     th_gpu.join(),th_drive.join(),th_ram.join()
-    # elif th_cpu != None and th_gpu == None and th_drive != None and th_ram != None:
-    #     th_cpu.start(), th_drive.start(), th_ram.start()
-    #     th_cpu.join(), th_drive.join(),th_ram.join()
-    # elif th_cpu != None and th_gpu != None and th_drive == None and th_ram != None:
-    #     th_cpu.start(), th_gpu.start(), th_ram.start()
-    #     th_cpu.join(),th_gpu.join(), th_ram.join()
-    # elif th_cpu != None and th_gpu != None and th_drive != None and th_ram == None:
-    #     th_cpu.start(), th_gpu.start(), th_drive.start()
-    #     th_cpu.join(),th_gpu.join(),th_drive.join()
-    # elif th_cpu == None and th_gpu == None and th_drive != None and th_ram != None:
-    #     th_drive.start(), th_ram.start()
-    #     th_drive.join(),th_ram.join()
-    # elif th_cpu == None and th_gpu != None and th_drive == None and th_ram != None:
-    #     th_gpu.start(), th_ram.start()
-    #     th_gpu.join(), th_ram.join()
-    # elif th_cpu == None and th_gpu != None and th_drive != None and th_ram == None:
-    #     th_gpu.start(), th_drive.start()
-    #     th_gpu.join(),th_drive.join()
-    # elif th_cpu != None and th_gpu == None and th_drive == None and th_ram != None:
-    #     th_cpu.start(), th_ram.start()
-    #     th_cpu.join(), th_ram.join()
-    # elif th_cpu != None and th_gpu == None and th_drive != None and th_ram == None:
-    #     th_cpu.start(), th_drive.start()
-    #     th_cpu.join(),th_drive.join()
-    # elif th_cpu != None and th_gpu != None and th_drive == None and th_ram == None:
-    #     th_cpu.start(), th_gpu.start()
-    #     th_cpu.join(),th_gpu.join()
-    # elif th_cpu != None and th_gpu == None and th_drive == None and th_ram == None:
-    #     th_cpu.start()
-    #     th_cpu.join()
-    # elif th_cpu == None and th_gpu != None and th_drive == None and th_ram == None:
-    #     th_gpu.start()
-    #     th_gpu.join()
-    # elif th_cpu == None and th_gpu == None and th_drive != None and th_ram == None:
-    #     th_drive.start()
-    #     th_drive.join()
-    # elif th_cpu == None and th_gpu == None and th_drive == None and th_ram != None:
-    #     th_ram.start()
-    #     th_ram.join()
     
     print("all Finish")
     os.rmdir("tmp")
