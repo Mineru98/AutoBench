@@ -48,13 +48,23 @@ optional arguments:
   -o O [O ...]  select export(default all of)
 ```
 
-## 사용 예시(for example)
+## 사용 예시(example from windws)
 ```
 1) AutoBench.exe
 2) AutoBench.exe -f csv
 3) AutoBench.exe -f xls -o cpu
 4) AutoBench.exe -o drive cpu ram
 ```
+
+## 사용 예시(example from linux)
+```
+0) chmod +x AutoBench
+1) AutoBench
+2) AutoBench -f csv
+3) AutoBench -f xls -o cpu
+4) AutoBench -o drive cpu ram
+```
+
 
 ## 빌드 방법(How To Build)
 [PyInstaller](https://pyinstaller.readthedocs.io/en/stable/usage.html)
