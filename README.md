@@ -80,6 +80,7 @@ pyinstaller -D -F -n AutoBench.v1.1.3_ -i icon.ico AutoBench.py
  - lxml 4.4.2
  - requests 2.22.0
  - beautifulsoup4 4.8.2
+ - matplotlib==3.0.3
 
 # 원본 사이트(Source Site)
 
