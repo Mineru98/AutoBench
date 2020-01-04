@@ -141,6 +141,7 @@ def convert_extention(find):
     filename = ''+find+'.xlsx'
     _filename = ''+find+'.csv'
     
+    count = 1
     xlsx = openpyxl.load_workbook(filename)
     csv = open(_filename, "w+", -1, "UTF8")
     for sheet_name in xlsx:
@@ -152,6 +153,9 @@ def convert_extention(find):
                 if i == len(l) - 1:
                     csv.write(str(l[i].value))
                     csv.write('\n')
+                elif i == 0:
+                    csv.write(str(count) + ',')
+                    count += 1
                 else:
                     csv.write(str(l[i].value) + ',')
     csv.close()
