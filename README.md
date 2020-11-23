@@ -15,14 +15,6 @@ GPU information is written by model name and score.<br>
 Drive information is written by model name and score.<br>
 RAM information is written by model name and score.<br>
 
-## 다운로드(Download)
-|  | ![Windows](https://icongr.am/devicon/windows8-original.svg) Windows | ![Linux](https://icongr.am/devicon/linux-original.svg) Linux |
-|-|-|-|
-| x64 | [![Download AutoBench](https://a.fsdn.com/con/app/sf-download-button)](https://sourceforge.net/projects/autobench/files/v1.1.2/Windows%28x64%29/AutoBench.v1.1.2_win_x64/download) | [![Download AutoBench](https://a.fsdn.com/con/app/sf-download-button)](https://sourceforge.net/projects/autobench/files/v1.1.2/Linux%28x64%29/AutoBench.v1.1.2_linux_x64/download) |
-| x86 | [![Download AutoBench](https://a.fsdn.com/con/app/sf-download-button)](https://sourceforge.net/projects/autobench/files/v1.1.2/Windows%28x32%29/AutoBench.v1.1.2_win_x64/download) | X |
-
-
-
 ## 사용법(Usage)
 ```
 usage: AutoBench [-h] [-v] [-f F [F ...]] [-o O [O ...]]
