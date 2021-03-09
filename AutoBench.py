@@ -461,9 +461,9 @@ def extract_ram():
 
 # Make CPU Data
 def make_csv_new(name):
+    import re
     str = []
     tmp = []
-    test = ""
     global c_rank
 
     f = open("tmp/"+name+".csv", 'r', encoding='UTF8')
@@ -475,11 +475,17 @@ def make_csv_new(name):
     for i in str:
         i = i.replace(",","").strip()
         if "NA" in i:
-            i = i[:i.find("NA")]
+            pattern = re.compile('NA$')
+            position = pattern.search(i)
+            i = i[:position.span()[0]]
             if i[i.find('%') - 2] != '(':#두자리 수
-                str_rank = repr(c_rank)
-                tmp.append(str_rank + "," + i[:i.index('%') - 3] + "," + i[i.index('%') + 2:])
-                c_rank+=1
+                try :
+                    str_rank = repr(c_rank)
+                    tmp.append(str_rank + "," + i[:i.index('%') - 3] + "," + i[i.index('%') + 2:])
+                    c_rank+=1
+                except ValueError as e:
+                    print(e)
+                    print(i)
             elif i[i.find('%') - 2] == '(':#한자리 수
                 str_rank = repr(c_rank)
                 tmp.append(str_rank + "," + i[:i.index('%') - 2] + "," + i[i.index('%') + 2:])
